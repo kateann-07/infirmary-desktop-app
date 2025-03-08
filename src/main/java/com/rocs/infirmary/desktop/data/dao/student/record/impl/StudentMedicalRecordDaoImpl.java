@@ -91,7 +91,28 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
         return medicalRecords;
     }
+
+    @Override
+    public boolean deleteStudentMedicalRecordById(String Id) {
+        try (Connection con = ConnectionHelper.getConnection()) {
+
+
+            PreparedStatement deleteFromStudentMedicalRecord = con.prepareStatement("DELETE FROM medical_record WHERE ID = ?");
+            deleteFromStudentMedicalRecord.setString(1, Id);
+            int affectedRows = deleteFromStudentMedicalRecord.executeUpdate();
+
+
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println("An SQL Exception occurred." + e.getMessage());
+            return false;
+        }
+    }
+
 }
+
+
+
 
 
 
