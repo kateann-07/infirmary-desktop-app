@@ -34,6 +34,7 @@ public class InfirmarySystemApplication {
         System.out.println("5 - Check Low Stock Medicine");
         System.out.println("6 - View Medicine Inventory List");
         System.out.println("7 - Read Student Medical Record");
+        System.out.println("8 - Delete Student Medical Record");
 
         System.out.println("Enter your choice: ");
         int choice = scanner.nextInt();
@@ -224,6 +225,41 @@ public class InfirmarySystemApplication {
                     System.out.println();
                 }
                 break;
+            }
+            case 8: {
+
+                StudentMedicalRecordFacadeImpl studentMedicalRecordFacade = new StudentMedicalRecordFacadeImpl();
+                Scanner sc = new Scanner(System.in);
+
+                System.out.print("Enter the id of the item to delete: ");
+                String id = sc.nextLine();
+
+                if (id == null) {
+                    System.out.println("Item to delete not found.");
+
+                } else {
+
+                    System.out.print("Are you sure you want to delete this record? This action cannot be undone. (yes/no): ");
+                    String confirmation = sc.nextLine();
+
+                    if (confirmation.equals("yes")) {
+                        boolean result = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
+
+                        if (result) {
+                            System.out.println("Item successfully deleted.");
+                        } else {
+                            System.out.println("Item cannot be deleted.");
+                        }
+
+                    }
+
+                    if (confirmation.equals("no")) {
+                        System.out.println("Cancel the Deletion");
+
+                    }
+
+                }
+
             }
 
                 default:
