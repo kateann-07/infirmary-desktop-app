@@ -3,7 +3,6 @@ package com.rocs.infirmary.desktop.data.model.person.student;
 import com.rocs.infirmary.desktop.data.model.person.Person;
 
 import java.util.Date;
-import java.util.List;
 
 public class Student extends Person {
 
@@ -56,6 +55,5 @@ public class Student extends Person {
     public void setTreatment(String treatment) {
         this.treatment = treatment;
     }
-
 
 }
