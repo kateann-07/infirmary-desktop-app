@@ -21,7 +21,6 @@ import com.rocs.medical.records.application.app.facade.deleteMedicalRecord.Stude
 import com.rocs.medical.records.application.app.facade.deleteMedicalRecord.impl.StudentMedicalRecordsFacadeImpl;
 import com.rocs.medical.records.application.model.deleteMedicalRecord.StudentMedicalRecords;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -157,13 +156,26 @@ public class InfirmarySystemApplication {
 
                 if (id == null) {
                     System.out.println("Item to delete not found.");
-                } else {
-                    boolean result = StudentMedicalRecordsFacade.deleteStudentMedicalRecordById(id);
 
-                    if (result) {
-                        System.out.println("Item successfully deleted.");
-                    } else {
-                        System.out.println("Item cannot be deleted.");
+                } else {
+
+                    System.out.print("Are you sure you want to delete this record? This action cannot be undone. (yes/no): ");
+                    String confirmation = sc.nextLine();
+
+                    if (confirmation.equals("yes")) {
+                        boolean result = StudentMedicalRecordsFacade.deleteStudentMedicalRecordById(id);
+
+                        if (result) {
+                            System.out.println("Item successfully deleted.");
+                        } else {
+                            System.out.println("Item cannot be deleted.");
+                        }
+
+                    }
+
+                    if (confirmation.equals("no")) {
+                        System.out.println("Cancel the Deletion");
+
                     }
 
                 }
@@ -177,6 +189,7 @@ public class InfirmarySystemApplication {
         }
 
     }
+
 
 
 

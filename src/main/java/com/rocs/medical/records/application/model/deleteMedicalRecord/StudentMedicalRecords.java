@@ -10,7 +10,7 @@ public class StudentMedicalRecords {
 
     private String MedHistoryId;
 
-    private int NurseInChargeIn;
+    private int NurseInChargeId;
 
     private String Symptoms;
 
@@ -23,12 +23,12 @@ public class StudentMedicalRecords {
     public StudentMedicalRecords() {
     }
 
-    public StudentMedicalRecords(int id, int studentId, int ailmentId, String medHistoryId, int nurseInChargeIn, String symptoms, int temperatureReadings, int visitDate, String treatment) {
+    public StudentMedicalRecords(int id, int studentId, int ailmentId, String medHistoryId, int nurseInChargeId, String symptoms, int temperatureReadings, int visitDate, String treatment) {
         this.Id = id;
         this.StudentId = studentId;
         this.AilmentId = ailmentId;
         this.MedHistoryId = medHistoryId;
-        this.NurseInChargeIn = nurseInChargeIn;
+        this.NurseInChargeId = nurseInChargeId;
         this.Symptoms = symptoms;
         this.TemperatureReadings = temperatureReadings;
         this.VisitDate = visitDate;
@@ -59,11 +59,11 @@ public class StudentMedicalRecords {
 
     public void setMedHistoryId(String medHistoryId) { this.MedHistoryId = medHistoryId; }
 
-    public int getNurseInChargeIn() {
-        return NurseInChargeIn;
+    public int getNurseInChargeId() {
+        return NurseInChargeId;
     }
 
-    public void setNurseInChargeIn(int nurseInChargeIn) { this.NurseInChargeIn = nurseInChargeIn; }
+    public void setNurseInChargeId(int nurseInChargeId) { this.NurseInChargeId = nurseInChargeId; }
 
     public String getSymptoms() {
         return Symptoms;
