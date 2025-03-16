@@ -14,4 +14,8 @@ public interface StudentMedicalRecordFacade {
      * @param LRN The LRN (Learner Reference Number) of the student.
      */
     Student findMedicalInformationByLRN(long LRN);
+
+    interface CreateMedicalRecordsFacade {
+        boolean AddStudentMedicalRecord(Student.StudentMedicalRecords record);
+    }
 }
