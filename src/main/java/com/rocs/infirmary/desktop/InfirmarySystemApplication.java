@@ -189,6 +189,7 @@ public class InfirmarySystemApplication {
                         }
                     }
                 }
+                break;
             }
             case 7: {
 
@@ -208,8 +209,8 @@ public class InfirmarySystemApplication {
                     System.out.println("Treatment             : " + record.getTreatment());
 
                     System.out.println();
-                    break;
                 }
+                break;
             }
 
                 default:
@@ -217,10 +218,6 @@ public class InfirmarySystemApplication {
                     break;
                 }
             }
-
-
-
-
 
     private static void displayCommonAilmentsReport(List<CommonAilmentsReport> reports, Date startDate, Date endDate, String gradeLevel, String section) {
         if (reports == null || reports.isEmpty()) {
