@@ -178,7 +178,8 @@ public class InfirmarySystemApplication {
                 if (medicineInventoryItems.isEmpty()) {
                     System.out.println("The list of items is empty.");
                 } else {
-                    System.out.println("LIST OF ITEMS:");{
+                    System.out.println("LIST OF ITEMS:");
+                    {
                         for (Medicine medicine : medicineInventoryItems) {
                             System.out.println("Name of Medicine:  " + medicine.getItemName() +
                                     "\nItem Type:    " + medicine.getItemType() +
@@ -188,14 +189,7 @@ public class InfirmarySystemApplication {
                         }
                     }
                 }
-
-                break;
             }
-
-            default:
-                System.out.println("Invalid choice. Please select a valid option.");
-                break;
-
             case 7: {
 
                 StudentMedicalRecordFacadeImpl studentMedical = new StudentMedicalRecordFacadeImpl();
@@ -214,11 +208,18 @@ public class InfirmarySystemApplication {
                     System.out.println("Treatment             : " + record.getTreatment());
 
                     System.out.println();
-
+                    break;
                 }
             }
-        }
-    }
+
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+                    break;
+                }
+            }
+
+
+
 
 
     private static void displayCommonAilmentsReport(List<CommonAilmentsReport> reports, Date startDate, Date endDate, String gradeLevel, String section) {
