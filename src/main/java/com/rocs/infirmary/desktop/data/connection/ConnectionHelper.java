@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class ConnectionHelper {
 
-    public static final String URL = "jdbc:oracle:thin:@localhost:1521:rogate";
+    public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 
     /**
      * The Oracle driver.
