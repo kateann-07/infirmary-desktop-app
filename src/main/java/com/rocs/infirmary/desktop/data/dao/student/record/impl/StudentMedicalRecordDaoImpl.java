@@ -1,6 +1,7 @@
 package com.rocs.infirmary.desktop.data.dao.student.record.impl;
 
 import com.rocs.infirmary.desktop.data.connection.ConnectionHelper;
+import com.rocs.infirmary.desktop.data.dao.utils.queryconstants.student.QueryConstants;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.dao.student.record.StudentMedicalRecordDao;
 
@@ -11,7 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The StudentMedicalRecordDaoImpl class implements the StudentMedicalRecordDao interface
+ * it provides methods for interacting with the infirmary database.
+ * It includes methods for retrieving, adding, updating, and deleting student medical records.
+ */
 public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
 
@@ -20,24 +25,9 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
        Student studentMedicalRecord = null;
         try (Connection con = ConnectionHelper.getConnection()) {
 
-            String sql = "SELECT " +
-                    "s.id AS student_id, " +
-                    "s.LRN, " +
-                    "p.first_name, " +
-                    "p.middle_name, " +
-                    "p.last_name, " +
-                    "p.age, " +
-                    "p.gender, " +
-                    "mr.symptoms, " +
-                    "mr.temperature_readings, " +
-                    "mr.visit_date AS visit_date, " +
-                    "mr.treatment " +
-                    "FROM student s " +
-                    "JOIN person p ON s.person_id = p.id " +
-                    "LEFT JOIN medical_record mr ON s.id = mr.student_id " +
-                    "WHERE s.LRN = ?";
+            QueryConstants queryConstants  = new QueryConstants();
 
-
+            String sql = queryConstants.getAllMedicalInformationByLRN();
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -72,20 +62,10 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
     public List<Student> getAllStudentMedicalRecords() {
         List<Student> medicalRecords = new ArrayList<>();
         try (Connection con = ConnectionHelper.getConnection()) {
-            String sql = "SELECT " +
-                    "student.id, " +
-                    "person.first_name, " +
-                    "person.middle_name, " +
-                    "person.last_name, " +
-                    "person.age, " +
-                    "person.gender, " +
-                    "medical_record.symptoms, " +
-                    "medical_record.temperature_readings, " +
-                    "medical_record.visit_date, " +
-                    "medical_record.treatment " +
-                    "FROM medical_record " +
-                    "JOIN person ON medical_record.student_id = person.id " +
-                    "LEFT JOIN student ON medical_record.student_id = student.id";
+
+            QueryConstants queryConstants  = new QueryConstants();
+
+            String sql = queryConstants.getAllStudentMedicalRecords();
 
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

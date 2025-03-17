@@ -9,6 +9,10 @@ import com.rocs.infirmary.desktop.data.model.report.lowstock.LowStockReport;
 import com.rocs.infirmary.desktop.data.model.report.visit.FrequentVisitReport;
 import com.rocs.infirmary.desktop.data.model.report.medication.MedicationTrendReport;
 import com.rocs.infirmary.desktop.app.facade.student.record.impl.StudentMedicalRecordFacadeImpl;
+import com.rocs.infirmary.desktop.app.facade.medicine.inventory.MedicineInventoryFacade;
+import com.rocs.infirmary.desktop.app.facade.medicine.inventory.impl.MedicineInventoryFacadeImpl;
+import com.rocs.infirmary.desktop.data.model.inventory.medicine.Medicine;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +32,8 @@ public class InfirmarySystemApplication {
         System.out.println("3 - Retrieve Student Medical Record");
         System.out.println("4 - Frequent Visit Report");
         System.out.println("5 - Check Low Stock Medicine");
-        System.out.println("6 - Read Student Medical Record");
+        System.out.println("6 - View Medicine Inventory List");
+        System.out.println("7 - Read Student Medical Record");
 
         System.out.println("Enter your choice: ");
         int choice = scanner.nextInt();
@@ -111,8 +116,8 @@ public class InfirmarySystemApplication {
                         System.out.println("Treatment             : " + record.getTreatment());
                     }
                 } catch (RuntimeException e) {
-                    System.out.println("Error generating: " + e.getMessage());
-                    System.err.println(e.getMessage());
+                    System.out.println("No Student Found!");
+
                 }
                 break;
             }
@@ -166,11 +171,32 @@ public class InfirmarySystemApplication {
                 }
                 break;
             }
+
+            case 6: {
+                MedicineInventoryFacade inventoryFacade = new MedicineInventoryFacadeImpl();
+                List<Medicine> medicineInventoryItems = inventoryFacade.findAllMedicine();
+                if (medicineInventoryItems.isEmpty()) {
+                    System.out.println("The list of items is empty.");
+                } else {
+                    System.out.println("LIST OF ITEMS:");{
+                        for (Medicine medicine : medicineInventoryItems) {
+                            System.out.println("Name of Medicine:  " + medicine.getItemName() +
+                                    "\nItem Type:    " + medicine.getItemType() +
+                                    "\nDescription:  " + medicine.getDescription() +
+                                    "\nStock Level:  " + medicine.getQuantity() +
+                                    "\nExpiry date:  " + medicine.getExpirationDate() + "\n");
+                        }
+                    }
+                }
+
+                break;
+            }
+
             default:
                 System.out.println("Invalid choice. Please select a valid option.");
                 break;
 
-            case 6: {
+            case 7: {
 
                 StudentMedicalRecordFacadeImpl studentMedical = new StudentMedicalRecordFacadeImpl();
                 List<Student> medicalRecords = studentMedical.readAllStudentMedicalRecords();

@@ -3,7 +3,13 @@ package com.rocs.infirmary.desktop.app.facade.student.record;
 
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 
+
 import java.util.List;
+
+
+/**
+ * The StudentMedicalRecordFacade interface defines methods for managing students medical record.
+ */
 
 public interface StudentMedicalRecordFacade {
 
