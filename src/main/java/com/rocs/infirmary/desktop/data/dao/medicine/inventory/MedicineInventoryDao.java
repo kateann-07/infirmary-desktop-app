@@ -6,4 +6,6 @@ public interface MedicineInventoryDao {
 
 
     List<Medicine> getAllMedicine();
+
+    boolean addMedicine(Medicine medicine);
 }

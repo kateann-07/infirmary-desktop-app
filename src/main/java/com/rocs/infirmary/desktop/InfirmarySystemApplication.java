@@ -24,6 +24,8 @@ import java.util.Scanner;
 public class InfirmarySystemApplication {
     public static void main(String[] args) {
 
+        MedicineInventoryFacade medicineInventoryFacade = new MedicineInventoryFacadeImpl();
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Infirmary System Application");
         System.out.println("Please select which report:");
@@ -33,6 +35,7 @@ public class InfirmarySystemApplication {
         System.out.println("4 - Frequent Visit Report");
         System.out.println("5 - Check Low Stock Medicine");
         System.out.println("6 - View Medicine Inventory List");
+        System.out.println("7 - Add Medicine Inventory");
 
         System.out.println("Enter your choice: ");
         int choice = scanner.nextInt();
@@ -186,6 +189,36 @@ public class InfirmarySystemApplication {
                                     "\nExpiry date:  " + medicine.getExpirationDate() + "\n");
                         }
                     }
+                }
+
+                break;
+            }
+            case 7:{
+                scanner.nextLine();
+
+                System.out.println("Adding an Medicine");
+                System.out.println("Enter Medicine Medicine Id: ");
+                String medicine_id = scanner.nextLine();
+                System.out.println("Enter Medicine Item Name: ");
+                String item_name = scanner.nextLine();
+                System.out.println("Enter Medicine Description: ");
+                String description = scanner.nextLine();
+                System.out.println("Enter Medicine Expiration Date : ");
+                int expiration_Date = scanner.nextInt();
+
+                Medicine medicine = new Medicine();
+                medicine.setMedicineId(medicine_id);
+                medicine.setItemName(item_name);
+                medicine.setDescription(description);
+                medicine.setExpirationDate(expiration_Date);
+
+
+                boolean result = medicineInventoryFacade.addMedicine(medicine);
+
+                if(result) {
+                    System.out.println("Successfully Added in Inventory.");
+                } else {
+                    System.out.println("Cannot be added in Inventory.");
                 }
 
                 break;
