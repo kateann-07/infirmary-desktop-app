@@ -20,8 +20,7 @@ import java.util.List;
  * It includes methods for notification of stock level of medicine and reports on common ailments, frequent visit, and medication trend.
  */
 public class DashboardDaoImpl implements DashboardDao {
-
-
+    
     @Override
     public List<LowStockReport> getAllLowStockMedicine() {
         List<LowStockReport> lowStockItems = new ArrayList<>();
