@@ -35,7 +35,6 @@ public class InfirmarySystemApplication {
         System.out.println("6 - View Medicine Inventory List");
         System.out.println("7 - Read Student Medical Record");
 
-
         System.out.println("Enter your choice: ");
         int choice = scanner.nextInt();
 
