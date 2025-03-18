@@ -27,7 +27,6 @@ public interface StudentMedicalRecordFacade {
      */
     List<Student> readAllStudentMedicalRecords();
 
-
     /**
      * Adds a new student medical record.
      *
@@ -35,5 +34,4 @@ public interface StudentMedicalRecordFacade {
      * @return True if the record was added successfully, false otherwise.
      */
     boolean AddStudentMedicalRecord(Student.CreateStudentMedicalRecords record);
-
 }

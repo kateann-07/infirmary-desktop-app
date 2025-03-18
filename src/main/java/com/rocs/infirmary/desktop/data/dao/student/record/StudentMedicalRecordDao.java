@@ -11,9 +11,7 @@ public interface StudentMedicalRecordDao {
 
     List<Student> getAllStudentMedicalRecords();
 
-
     boolean createMedicalRecord(Student.CreateStudentMedicalRecords createStudentMedicalRecords);
-
 }
 
 

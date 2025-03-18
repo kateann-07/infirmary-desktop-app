@@ -37,7 +37,6 @@ public class InfirmarySystemApplication {
         System.out.println("7 - Read Student Medical Record");
         System.out.println("8 - Add Student Personal Record");
 
-
         System.out.println("Enter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -227,7 +226,6 @@ public class InfirmarySystemApplication {
 
                     System.out.println();
                 }
-
                 break;
             }
             case 8: {
@@ -241,16 +239,9 @@ public class InfirmarySystemApplication {
             }
             default:
                 System.out.println("Invalid choice. Please select a valid option.");
-
-
                 break;
-            }
-
-                default:
-                    System.out.println("Invalid choice. Please select a valid option.");
-                    break;
-                }
-            }
+        }
+    }
 
     private static void addStudentMedicalRecord(Scanner scanner, StudentMedicalRecordFacade recordsFacade) {
         System.out.println("Adding Student Personal Record");

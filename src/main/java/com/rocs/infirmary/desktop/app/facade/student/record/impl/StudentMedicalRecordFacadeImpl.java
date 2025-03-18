@@ -33,7 +33,6 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
         return medicalRecords;
     }
 
-
     /**
      * The data adding object for Student Medical Record.
      */
@@ -41,8 +40,6 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
      public boolean AddStudentMedicalRecord(Student.CreateStudentMedicalRecords record) {
         return studentMedRecord.createMedicalRecord(record);
     }
-
-
 }
 
 
