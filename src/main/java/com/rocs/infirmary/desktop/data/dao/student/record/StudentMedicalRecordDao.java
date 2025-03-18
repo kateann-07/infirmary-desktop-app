@@ -10,4 +10,9 @@ public interface StudentMedicalRecordDao {
     Student getMedicalInformationByLRN(long LRN);
 
     List<Student> getAllStudentMedicalRecords();
+
+    boolean createMedicalRecord(Student.CreateStudentMedicalRecords createStudentMedicalRecords);
 }
+
+
+

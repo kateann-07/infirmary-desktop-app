@@ -5,11 +5,9 @@ import com.rocs.infirmary.desktop.data.dao.utils.queryconstants.student.QueryCon
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.dao.student.record.StudentMedicalRecordDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,10 +20,10 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
     public Student getMedicalInformationByLRN(long LRN) {
 
-       Student studentMedicalRecord = null;
+        Student studentMedicalRecord = null;
         try (Connection con = ConnectionHelper.getConnection()) {
 
-            QueryConstants queryConstants  = new QueryConstants();
+            QueryConstants queryConstants = new QueryConstants();
 
             String sql = queryConstants.getAllMedicalInformationByLRN();
 
@@ -36,7 +34,7 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
             ResultSet rs = stmt.executeQuery();
 
 
-            if(rs.next()) {
+            if (rs.next()) {
                 studentMedicalRecord = new Student();
                 studentMedicalRecord.setStudentId(rs.getInt("student_id"));
                 studentMedicalRecord.setLrn(rs.getLong("LRN"));
@@ -50,10 +48,10 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
                 studentMedicalRecord.setVisitDate(rs.getDate("visit_date"));
                 studentMedicalRecord.setTreatment(rs.getString("treatment"));
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return  studentMedicalRecord;
+        return studentMedicalRecord;
 
 
     }
@@ -63,7 +61,7 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
         List<Student> medicalRecords = new ArrayList<>();
         try (Connection con = ConnectionHelper.getConnection()) {
 
-            QueryConstants queryConstants  = new QueryConstants();
+            QueryConstants queryConstants = new QueryConstants();
 
             String sql = queryConstants.getAllStudentMedicalRecords();
 
@@ -91,7 +89,60 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
         return medicalRecords;
     }
+
+    @Override
+    public boolean createMedicalRecord(Student.CreateStudentMedicalRecords createStudentMedicalRecords) {
+        try (Connection con = ConnectionHelper.getConnection()) {
+            QueryConstants queryConstants = new QueryConstants();
+
+            String sql = queryConstants.getInsertMedicalRecord();
+
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setString(1, createStudentMedicalRecords.getSymptoms());
+
+                if (createStudentMedicalRecords.getVisitDateTime() != null) {
+                    try {
+                        Date ldt = createStudentMedicalRecords.getVisitDateTime();
+                        if (ldt != null) {
+                            stmt.setTimestamp(2, new Timestamp(ldt.getTime()));
+                        } else {
+                            stmt.setTimestamp(2, null);
+                        }
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+
+                stmt.setDouble(3, createStudentMedicalRecords.getTemperatureReadings());
+                stmt.setString(4, createStudentMedicalRecords.getTreatment());
+                stmt.setInt(5, createStudentMedicalRecords.getNurseInChargeId());
+
+                Integer ailmentId = createStudentMedicalRecords.getAilmentId();
+                if (ailmentId == null) {
+                    throw new IllegalArgumentException("Ailment ID cannot be null.");
+                } else {
+                    stmt.setInt(6, ailmentId);
+                }
+
+                stmt.setString(7, createStudentMedicalRecords.getFirstName());
+                stmt.setString(8, createStudentMedicalRecords.getMiddleName());
+                stmt.setString(9, createStudentMedicalRecords.getLastName());
+
+                stmt.setString(10, createStudentMedicalRecords.getFirstName());
+                stmt.setString(11, createStudentMedicalRecords.getMiddleName());
+                stmt.setString(12, createStudentMedicalRecords.getLastName());
+
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
 
 
 

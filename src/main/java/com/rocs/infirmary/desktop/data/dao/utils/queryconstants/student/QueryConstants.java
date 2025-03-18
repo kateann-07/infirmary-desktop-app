@@ -34,11 +34,21 @@ public class QueryConstants {
             "JOIN person ON medical_record.student_id = person.id " +
             "LEFT JOIN student ON medical_record.student_id = student.id";
 
+    private final String INSERT_MEDICAL_RECORD_WITH_JOIN = "INSERT INTO medical_record " +
+            "(student_id, symptoms, visit_datetime, temperature, treatment, nurse_in_charge_id, ailment_id) " +
+            "SELECT p.id, ?, ?, ?, ?, ?, ? " +
+            "FROM person p " +
+            "WHERE p.first_name = ? AND p.middle_name = ? AND p.last_name = ? " +
+            "AND EXISTS (SELECT 1 FROM person WHERE first_name = ? AND middle_name = ? AND last_name = ?)";
+
 
     public String getAllStudentMedicalRecords() {
         return GET_ALL_STUDENTS_MEDICAL_RECORDS;
     }
+
     public String getAllMedicalInformationByLRN() {
         return GET_ALL_MEDICAL_INFORMATION_BY_LRN;
     }
+
+    public String getInsertMedicalRecord() { return INSERT_MEDICAL_RECORD_WITH_JOIN;}
 }
