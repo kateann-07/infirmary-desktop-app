@@ -6,10 +6,15 @@ import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.dao.student.record.StudentMedicalRecordDao;
 import com.rocs.infirmary.desktop.data.dao.student.record.impl.StudentMedicalRecordDaoImpl;
 
+
+import java.util.List;
+
+
 /**
  * The StudentMedicalRecordFacadeImpl class is an implementation of the StudentMedicalRecordFacade interface.
  * It provides methods for managing students medical record.
  */
+
 public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacade {
 
     /** The data access object for Student Medical Record. */
@@ -19,14 +24,11 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
         return this.studentMedRecord.getMedicalInformationByLRN(LRN);
     }
 
-    public static class CreateMedicalRecordsFacadeImpl implements CreateMedicalRecordsFacade {
+    @Override
+    public List<Student> readAllStudentMedicalRecords() {
+        List<Student> medicalRecords = this.studentMedRecord.getAllStudentMedicalRecords();
 
-        private final StudentMedicalRecordDao.CreateMedicalRecordsDao medicalRecordsDao = new StudentMedicalRecordDaoImpl.CreateMedicalRecordsDaoImpl();
-
-        @Override
-        public boolean AddStudentMedicalRecord(Student.StudentMedicalRecords record) {
-            return medicalRecordsDao.createMedicalRecord(record);
-        }
+        return medicalRecords;
     }
 }
 
