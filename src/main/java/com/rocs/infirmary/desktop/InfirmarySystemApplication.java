@@ -130,8 +130,21 @@ public class InfirmarySystemApplication {
                     SimpleDateFormat displayFormat = new SimpleDateFormat("MMMM dd, yyyy");
                     Date frequentVisitStartDate = getValidInputDate(scanner, dateFormat, "Enter start date (yyyy-MM-dd): ");
                     Date frequentVisitEndDate = getValidInputDate(scanner, dateFormat, "Enter end date (yyyy-MM-dd): ");
-                    System.out.print("Enter grade level for Frequent Visit: ");
-                    String frequentVisitGradeLevel = scanner.nextLine().trim();
+
+                    String frequentVisitGradeLevel;
+                    while (true) {
+                        System.out.println("Select Grade Level for Frequent Visit \n(1 = Grade 11, 2 = Grade 12): ");
+                        String gradeInput = scanner.nextLine().trim();
+                        if (gradeInput.equals("1")) {
+                            frequentVisitGradeLevel = "Grade 11";
+                            break;
+                        }else if(gradeInput.equals("2")) {
+                            frequentVisitGradeLevel = "Grade 12";
+                            break;
+                        }else{
+                            System.out.println("Invalid Input. Please Enter 1 or 2");
+                        }
+                    }
 
                     List<FrequentVisitReport> reports = dashboardFacade.generateFrequentVisitReport(frequentVisitStartDate, frequentVisitEndDate, frequentVisitGradeLevel);
 
@@ -143,11 +156,11 @@ public class InfirmarySystemApplication {
                         System.out.println("Total no. of Visit: " + reports.size());
                         for (FrequentVisitReport report : reports) {
                             System.out.println("\nStudent First Name: " + report.getFirstName());
-                            System.out.println("\nStudent Last Name: " + report.getLastName());
-                            System.out.println("\nVisit Date: " + report.getVisitDate());
-                            System.out.println("\nGrade Level: " + report.getGradeLevel());
-                            System.out.println("\nHealth Concern: " + report.getSymptoms());
-                            System.out.println("\nTotal Visit: " + report.getVisitCount());
+                            System.out.println("Student Last Name: " + report.getLastName());
+                            System.out.println("Visit Date: " + report.getVisitDate());
+                            System.out.println("Grade Level: " + report.getGradeLevel());
+                            System.out.println("Health Concern: " + report.getSymptoms());
+                            System.out.println("Total Visit: " + report.getVisitCount());
                         }
                     }
 
