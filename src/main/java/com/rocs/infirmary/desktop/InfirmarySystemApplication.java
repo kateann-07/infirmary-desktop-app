@@ -239,32 +239,31 @@ public class InfirmarySystemApplication {
 
                 } else {
 
-                    System.out.print("Are you sure you want to delete this record? This action cannot be undone. (yes/no): ");
+                    System.out.print("Are you sure you want to delete this record? This action cannot be undone. (Select 1. for YES and 2. for NO/CANCEL): ");
                     String confirmation = sc.nextLine();
 
-                    if (confirmation.equals("yes")) {
-                        boolean result = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
+                    if (confirmation.equals("1")) {
+                        Student deleteStudentMedicalRecord = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
 
-                        if (result) {
-                            System.out.println("Item successfully deleted.");
-                        } else {
+                        if (deleteStudentMedicalRecord!=null) {
                             System.out.println("Item cannot be deleted.");
+                        } else {
+                            System.out.println("Item successfully deleted.");
                         }
 
                     }
 
-                    if (confirmation.equals("no")) {
+                    if (confirmation.equals("2")) {
                         System.out.println("Cancel the Deletion");
 
                     }
 
                 }
-
+                break;
             }
 
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
-                    break;
                 }
             }
 
