@@ -47,8 +47,8 @@ public class QueryConstants {
             "medical_record.treatment " +
             "FROM medical_record " +
             "JOIN person ON medical_record.student_id = person.id " +
-            "LEFT JOIN student ON medical_record.student_id = student.id";
-
+            "LEFT JOIN student ON student.id = medical_record.student_id " +
+            "DELETE FROM medical_record WHERE student_id = ?";
 
     public String getAllStudentMedicalRecords() {
         return GET_ALL_STUDENTS_MEDICAL_RECORDS;
@@ -56,6 +56,8 @@ public class QueryConstants {
     public String getAllMedicalInformationByLRN() {
         return GET_ALL_MEDICAL_INFORMATION_BY_LRN;
     }
-    public String deleteStudentMedicalRecordById() { return DELETE_STUDENT_MEDICAL_RECORD_BY_ID;}
+    public String deleteStudentMedicalRecordById() {
+     return DELETE_STUDENT_MEDICAL_RECORD_BY_ID;
+    }
 
     }
