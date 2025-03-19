@@ -2,6 +2,7 @@ package com.rocs.infirmary.desktop.data.dao.report.dashboard.impl;
 
 import com.rocs.infirmary.desktop.data.connection.ConnectionHelper;
 import com.rocs.infirmary.desktop.data.dao.report.dashboard.DashboardDao;
+import com.rocs.infirmary.desktop.data.model.report.lowstock.LowStockReport;
 import com.rocs.infirmary.desktop.data.model.report.medication.MedicationTrendReport;
 import com.rocs.infirmary.desktop.data.model.report.visit.FrequentVisitReport;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +18,7 @@ import java.sql.*;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -85,4 +87,26 @@ public class DashboardDaoImplTest {
         assertNotNull(medicationTrendReports.get(0));
 
     }
+
+    @Test
+    public void testGetAllLowStockMedicine() throws SQLException {
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(true, false);
+        when(resultSet.getString("item_name")).thenReturn("Test Medicine");
+        when(resultSet.getInt("quantity")).thenReturn(5);
+
+        DashboardDao dashboardDao = new DashboardDaoImpl();
+        List<LowStockReport> lowStockReports = dashboardDao.getAllLowStockMedicine();
+
+        assertNotNull(lowStockReports);
+        assertEquals(1, lowStockReports.size());
+
+        LowStockReport report = lowStockReports.get(0);
+        assertEquals("Test Medicine", report.getDescription());
+        assertEquals(5, report.getQuantityAvailable());
+
+        verify(connection, times(1)).prepareStatement(anyString());
+        verify(preparedStatement, times(1)).executeQuery();
+    }
+
 }

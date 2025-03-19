@@ -1,5 +1,7 @@
 package com.rocs.infirmary.desktop.app.facade.dashboard.impl;
 
+import com.rocs.infirmary.desktop.data.dao.report.dashboard.DashboardDao;
+import com.rocs.infirmary.desktop.data.model.report.lowstock.LowStockReport;
 import com.rocs.infirmary.desktop.data.model.report.medication.MedicationTrendReport;
 import com.rocs.infirmary.desktop.data.model.report.visit.FrequentVisitReport;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,9 +25,14 @@ public class DashboardFacadeImplTest {
     @Mock
     private DashboardFacadeImpl dashboard;
 
+    @Mock
+    private DashboardDao dashboardDao;
+
     private List<FrequentVisitReport> frequentVisitReportList;
 
     private List<MedicationTrendReport> medicationTrendReportsList;
+
+    private List<LowStockReport> lowStockReportList;
 
     @BeforeEach
     public void setUp() {
@@ -46,6 +53,13 @@ public class DashboardFacadeImplTest {
         medicationTrendReport.setMedicineName("Test MedicineName");
         medicationTrendReport.setStocks(50);
         medicationTrendReportsList.add(medicationTrendReport);
+
+        lowStockReportList = new ArrayList<>();
+        LowStockReport lowStockReport = new LowStockReport();
+        lowStockReport.setDescription("Test Medicine");
+        lowStockReport.setQuantityAvailable(5);
+        lowStockReportList.add(lowStockReport);
+
     }
 
     @Test
@@ -87,4 +101,22 @@ public class DashboardFacadeImplTest {
         verify(dashboard, times(1)).generateMedicationReport(any(Date.class), any(Date.class));
 
     }
+
+    @Test
+    public void testFindAllLowStockMedicine() {
+
+        when(dashboardDao.getAllLowStockMedicine()).thenReturn(lowStockReportList);
+
+        List<LowStockReport> result = dashboardDao.getAllLowStockMedicine();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+
+        LowStockReport report = result.get(0);
+        assertEquals("Test Medicine", report.getDescription());
+        assertEquals(5, report.getQuantityAvailable());
+
+        verify(dashboardDao, times(1)).getAllLowStockMedicine();
+    }
+
 }
