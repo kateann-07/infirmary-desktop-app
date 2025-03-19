@@ -3,6 +3,7 @@ package com.rocs.infirmary.desktop;
 import com.rocs.infirmary.desktop.app.facade.dashboard.DashboardFacade;
 import com.rocs.infirmary.desktop.app.facade.dashboard.impl.DashboardFacadeImpl;
 import com.rocs.infirmary.desktop.app.facade.student.record.StudentMedicalRecordFacade;
+import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecords;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.model.person.Person;
 import com.rocs.infirmary.desktop.data.model.report.ailment.CommonAilmentsReport;
@@ -245,7 +246,7 @@ public class InfirmarySystemApplication {
 
     private static void addStudentMedicalRecord(Scanner scanner, StudentMedicalRecordFacade recordsFacade) {
         System.out.println("Adding Student Personal Record");
-        Student.CreateStudentMedicalRecords record = new Student.CreateStudentMedicalRecords();
+        MedicalRecords record = new MedicalRecords();
 
         System.out.print("First Name: ");
         record.setFirstName(scanner.nextLine());
@@ -265,7 +266,7 @@ public class InfirmarySystemApplication {
             try {
                 visitDateTime = dateTimeFormat.parse(dateTimeStr);
             } catch (ParseException e) {
-                System.out.println("Invalid date/time format. Please use yyyy-MM-dd HH:mm.");
+                System.out.println("Invalid date/time format. Please use YYYY-MM-dd HH:mm.");
             }
         }
 

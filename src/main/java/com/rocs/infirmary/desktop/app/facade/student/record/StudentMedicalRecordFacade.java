@@ -1,6 +1,7 @@
 package com.rocs.infirmary.desktop.app.facade.student.record;
 
 
+import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecords;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 
 
@@ -33,5 +34,5 @@ public interface StudentMedicalRecordFacade {
      * @param record The student medical record to add.
      * @return True if the record was added successfully, false otherwise.
      */
-    boolean AddStudentMedicalRecord(Student.CreateStudentMedicalRecords record);
+    boolean AddStudentMedicalRecord(MedicalRecords record);
 }

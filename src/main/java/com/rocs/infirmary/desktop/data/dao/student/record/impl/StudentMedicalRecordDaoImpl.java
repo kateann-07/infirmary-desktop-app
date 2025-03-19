@@ -2,6 +2,7 @@ package com.rocs.infirmary.desktop.data.dao.student.record.impl;
 
 import com.rocs.infirmary.desktop.data.connection.ConnectionHelper;
 import com.rocs.infirmary.desktop.data.dao.utils.queryconstants.student.QueryConstants;
+import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecords;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.dao.student.record.StudentMedicalRecordDao;
 
@@ -91,18 +92,18 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
     }
 
     @Override
-    public boolean createMedicalRecord(Student.CreateStudentMedicalRecords createStudentMedicalRecords) {
+    public boolean createMedicalRecord(MedicalRecords medicalRecords) {
         try (Connection con = ConnectionHelper.getConnection()) {
             QueryConstants queryConstants = new QueryConstants();
 
             String sql = queryConstants.getInsertMedicalRecord();
 
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
-                stmt.setString(1, createStudentMedicalRecords.getSymptoms());
+                stmt.setString(1, medicalRecords.getSymptoms());
 
-                if (createStudentMedicalRecords.getVisitDateTime() != null) {
+                if (medicalRecords.getVisitDateTime() != null) {
                     try {
-                        Date ldt = createStudentMedicalRecords.getVisitDateTime();
+                        Date ldt = medicalRecords.getVisitDateTime();
                         if (ldt != null) {
                             stmt.setTimestamp(2, new Timestamp(ldt.getTime()));
                         } else {
@@ -113,24 +114,24 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
                     }
                 }
 
-                stmt.setDouble(3, createStudentMedicalRecords.getTemperatureReadings());
-                stmt.setString(4, createStudentMedicalRecords.getTreatment());
-                stmt.setInt(5, createStudentMedicalRecords.getNurseInChargeId());
+                stmt.setString(3, medicalRecords.getTemperatureReadings());
+                stmt.setString(4, medicalRecords.getTreatment());
+                stmt.setInt(5, medicalRecords.getNurseInChargeId());
 
-                Integer ailmentId = createStudentMedicalRecords.getAilmentId();
+                Integer ailmentId = medicalRecords.getAilmentId();
                 if (ailmentId == null) {
                     throw new IllegalArgumentException("Ailment ID cannot be null.");
                 } else {
                     stmt.setInt(6, ailmentId);
                 }
 
-                stmt.setString(7, createStudentMedicalRecords.getFirstName());
-                stmt.setString(8, createStudentMedicalRecords.getMiddleName());
-                stmt.setString(9, createStudentMedicalRecords.getLastName());
+                stmt.setString(7, medicalRecords.getFirstName());
+                stmt.setString(8, medicalRecords.getMiddleName());
+                stmt.setString(9, medicalRecords.getLastName());
 
-                stmt.setString(10, createStudentMedicalRecords.getFirstName());
-                stmt.setString(11, createStudentMedicalRecords.getMiddleName());
-                stmt.setString(12, createStudentMedicalRecords.getLastName());
+                stmt.setString(10, medicalRecords.getFirstName());
+                stmt.setString(11, medicalRecords.getMiddleName());
+                stmt.setString(12, medicalRecords.getLastName());
 
                 int rowsAffected = stmt.executeUpdate();
                 return rowsAffected > 0;
