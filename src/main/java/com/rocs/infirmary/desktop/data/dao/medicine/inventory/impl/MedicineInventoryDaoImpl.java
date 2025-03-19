@@ -46,6 +46,25 @@ public class MedicineInventoryDaoImpl implements MedicineInventoryDao {
 
         return  MedicineInventoryList;
     }
+
+    @Override
+    public boolean addMedicine(Medicine medicine) {
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO MEDICINE( medicine_id," +
+                    "item_name,description ,expiration_date,) VALUES (?, ?, ?, ?,)");
+            stmt.setString(2, medicine.getMedicineId());
+            stmt.setString(3, medicine.getItemName());
+            stmt.setString(4, medicine.getDescription());
+            stmt.setTimestamp(5, medicine.getExpirationDate());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("An SQL Exception occurred." + e.getMessage());
+            return false;
+        }
+
+    }
 }
 
 
