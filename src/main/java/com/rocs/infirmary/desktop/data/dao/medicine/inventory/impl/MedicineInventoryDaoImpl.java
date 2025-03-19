@@ -51,12 +51,11 @@ public class MedicineInventoryDaoImpl implements MedicineInventoryDao {
     public boolean addMedicine(Medicine medicine) {
 
         try (Connection con = ConnectionHelper.getConnection()) {
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO MEDICINE( medicine_id," +
-                    "item_name,description ,expiration_date,) VALUES (?, ?, ?, ?,)");
-            stmt.setString(2, medicine.getMedicineId());
-            stmt.setString(3, medicine.getItemName());
-            stmt.setString(4, medicine.getDescription());
-            stmt.setTimestamp(5, medicine.getExpirationDate());
+            PreparedStatement stmt = con.prepareStatement ("INSERT INTO Medicine (medicine_id, item_name, description, expiration_date) VALUES (?, ?, ?, ?)");
+            stmt.setString(1, medicine.getMedicineId());
+            stmt.setString(2, medicine.getItemName());
+            stmt.setString(3, medicine.getDescription());
+            stmt.setTimestamp(4, medicine.getExpirationDate());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
