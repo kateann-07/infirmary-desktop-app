@@ -242,10 +242,11 @@ public class InfirmarySystemApplication {
                     System.out.print("Are you sure you want to delete this record? This action cannot be undone. (Select 1. for YES and 2. for NO/CANCEL): ");
                     String confirmation = sc.nextLine();
 
-                    if (confirmation.equals("1")) {
-                        Student result = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
 
-                        if (result!=null) {
+                    if (confirmation.equals("1")) {
+                        boolean result = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
+
+                        if (result) {
                             System.out.println("Item cannot be deleted.");
                         } else {
                             System.out.println("Item successfully deleted.");

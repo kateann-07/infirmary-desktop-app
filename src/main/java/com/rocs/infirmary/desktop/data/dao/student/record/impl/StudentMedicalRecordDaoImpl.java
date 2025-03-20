@@ -93,40 +93,25 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
     }
 
     @Override
-    public Student deleteStudentMedicalRecordById(String Id) {
-        Student studentMedicalRecord = new Student();
+    public boolean deleteStudentMedicalRecordById(String Id) {
         try (Connection con = ConnectionHelper.getConnection()) {
 
             QueryConstants queryConstants = new QueryConstants();
 
-            String sql = queryConstants.deleteStudentMedicalRecordById();
+            String sql = queryConstants.getDELETE_STUDENT_MEDICAL_RECORD_BY_ID();
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement deleteFromStudentMedicalRecords = con.prepareStatement("DELETE FROM medical_record WHERE ID = ?");
+            deleteFromStudentMedicalRecords.setString(1, Id);
+            int affectedRows = deleteFromStudentMedicalRecords.executeUpdate();
 
-            stmt.setString(1, Id);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                studentMedicalRecord = new Student();
-                studentMedicalRecord.setStudentId(rs.getInt("student_id"));
-                studentMedicalRecord.setFirstName(rs.getString("first_name"));
-                studentMedicalRecord.setMiddleName(rs.getString("middle_name"));
-                studentMedicalRecord.setLastName(rs.getString("last_name"));
-                studentMedicalRecord.setAge(rs.getInt("age"));
-                studentMedicalRecord.setGender(rs.getString("gender"));
-                studentMedicalRecord.setSymptoms(rs.getString("symptoms"));
-                studentMedicalRecord.setTemperatureReadings(rs.getString("temperature_readings"));
-                studentMedicalRecord.setVisitDate(rs.getDate("visit_date"));
-                studentMedicalRecord.setTreatment(rs.getString("treatment"));
-
-            }
+            return affectedRows > 0;
         } catch (SQLException e) {
-
-            throw new RuntimeException(e);
+            System.out.println("An SQL Exception occurred." + e.getMessage());
+            return false;
         }
-
-        return studentMedicalRecord;
     }
+
 }
 
 
