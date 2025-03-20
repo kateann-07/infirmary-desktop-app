@@ -9,7 +9,7 @@ public class Student extends Person {
     private int studentSectionId;
     private int studentId;
     private int studentGuardianId;
-    private  long lrn;
+    private long lrn;
     private String symptoms;
     private String temperatureReadings;
     private Date visitDate;
@@ -55,5 +55,6 @@ public class Student extends Person {
     public void setTreatment(String treatment) {
         this.treatment = treatment;
     }
+
 
 }
