@@ -2,7 +2,7 @@ package com.rocs.infirmary.desktop.app.facade.student.record.impl;
 
 
 import com.rocs.infirmary.desktop.app.facade.student.record.StudentMedicalRecordFacade;
-import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecords;
+import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecord;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.dao.student.record.StudentMedicalRecordDao;
 import com.rocs.infirmary.desktop.data.dao.student.record.impl.StudentMedicalRecordDaoImpl;
@@ -38,7 +38,7 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
      * The data adding object for Student Medical Record.
      */
     @Override
-    public boolean AddStudentMedicalRecord(MedicalRecords record) {
+    public boolean addStudentMedicalRecord(MedicalRecord record) {
         return studentMedRecord.createMedicalRecord(record);
     }
 }

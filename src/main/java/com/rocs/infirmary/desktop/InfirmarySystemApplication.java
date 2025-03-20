@@ -3,7 +3,7 @@ package com.rocs.infirmary.desktop;
 import com.rocs.infirmary.desktop.app.facade.dashboard.DashboardFacade;
 import com.rocs.infirmary.desktop.app.facade.dashboard.impl.DashboardFacadeImpl;
 import com.rocs.infirmary.desktop.app.facade.student.record.StudentMedicalRecordFacade;
-import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecords;
+import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecord;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.model.person.Person;
 import com.rocs.infirmary.desktop.data.model.report.ailment.CommonAilmentsReport;
@@ -16,6 +16,7 @@ import com.rocs.infirmary.desktop.app.facade.medicine.inventory.impl.MedicineInv
 import com.rocs.infirmary.desktop.data.model.inventory.medicine.Medicine;
 
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -245,8 +246,12 @@ public class InfirmarySystemApplication {
     }
 
     private static void addStudentMedicalRecord(Scanner scanner, StudentMedicalRecordFacade recordsFacade) {
-        System.out.println("Adding Student Personal Record");
-        MedicalRecords record = new MedicalRecords();
+        System.out.println("Adding Student Medical Record");
+        MedicalRecord record = new MedicalRecord();
+
+        System.out.print("Student ID: ");
+        record.setStudentId(scanner.nextLong());
+        scanner.nextLine();
 
         System.out.print("First Name: ");
         record.setFirstName(scanner.nextLine());
@@ -266,24 +271,27 @@ public class InfirmarySystemApplication {
             try {
                 visitDateTime = dateTimeFormat.parse(dateTimeStr);
             } catch (ParseException e) {
-                System.out.println("Invalid date/time format. Please use YYYY-MM-dd HH:mm.");
+                System.out.println("Invalid date/time format. Please use땔땔-MM-dd HH:mm.");
             }
         }
 
-        record.setVisitDateTime(visitDateTime);
+        record.setVisitDate(new Timestamp(visitDateTime.getTime()));
         System.out.print("Temperature Readings: ");
-        record.setTemperatureReadings(scanner.nextDouble());
-        scanner.nextLine();
+        record.setTemperatureReadings(scanner.nextLine());
         System.out.print("Treatment: ");
         record.setTreatment(scanner.nextLine());
         System.out.print("Nurse In Charge ID: ");
-        record.setNurseInChargeId(scanner.nextInt());
+        record.setNurseInChargeId(scanner.nextLong());
         scanner.nextLine();
         System.out.print("Ailment ID: ");
-        record.setAilmentId(scanner.nextInt());
-        scanner.nextLine();
+        if (scanner.hasNextInt()) {
+            record.setAilmentId(scanner.nextLong());
+        } else {
+            record.setAilmentId(null);
+            scanner.nextLine();
+        }
 
-        if (recordsFacade.AddStudentMedicalRecord(record)) {
+        if (recordsFacade.addStudentMedicalRecord(record)) {
             System.out.println("Record added and saved successfully.");
         } else {
             System.out.println("Failed to add and save record.");

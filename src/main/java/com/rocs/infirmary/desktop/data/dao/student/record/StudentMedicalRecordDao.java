@@ -1,7 +1,7 @@
 package com.rocs.infirmary.desktop.data.dao.student.record;
 
 
-import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecords;
+import com.rocs.infirmary.desktop.data.model.person.student.MedicalRecord;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface StudentMedicalRecordDao {
 
     List<Student> getAllStudentMedicalRecords();
 
-    boolean createMedicalRecord(MedicalRecords medicalRecords);
+    boolean createMedicalRecord(MedicalRecord medicalRecords);
 }
 
 
