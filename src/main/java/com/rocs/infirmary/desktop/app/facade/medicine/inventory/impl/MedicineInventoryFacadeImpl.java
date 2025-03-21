@@ -23,8 +23,8 @@ public class MedicineInventoryFacadeImpl implements MedicineInventoryFacade {
     }
 
     @Override
-    public boolean addMedicine(Medicine medicine, Date endDate) {
-        return this.medicineInventoryDao.addMedicine(medicine,endDate);
+    public boolean addMedicine(Medicine medicine) {
+        return this.medicineInventoryDao.addMedicine(medicine);
     }
 
 

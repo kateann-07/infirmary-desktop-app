@@ -14,6 +14,7 @@ import com.rocs.infirmary.desktop.app.facade.medicine.inventory.impl.MedicineInv
 import com.rocs.infirmary.desktop.data.model.inventory.medicine.Medicine;
 
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -239,15 +240,16 @@ public class InfirmarySystemApplication {
                 String item_name = scanner.nextLine();
                 System.out.println("Enter Medicine Description: ");
                 String description = scanner.nextLine();
-                Date endDate = getValidInputDate(scanner, dateFormat, "Enter Expiration Date (yyyy-MM-dd): ");
-
+                System.out.println("Enter Expiration DAte(yyyy-mm-dd hh:mm:ss)");
+                Timestamp expiration_Date = Timestamp.valueOf(scanner.nextLine());
 
                 Medicine medicine = new Medicine();
                 medicine.setMedicineId(medicine_id);
                 medicine.setItemName(item_name);
                 medicine.setDescription(description);
+                medicine.setExpirationDate(expiration_Date);
 
-                boolean result = medicineInventoryFacade.addMedicine(medicine, endDate);
+                boolean result = medicineInventoryFacade.addMedicine(medicine);
 
                 if(result) {
                     System.out.println("Successfully Added in Medicine.");

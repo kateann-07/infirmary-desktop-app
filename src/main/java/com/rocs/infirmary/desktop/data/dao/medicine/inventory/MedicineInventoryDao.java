@@ -11,5 +11,5 @@ public interface MedicineInventoryDao {
 */
     List<Medicine> getAllMedicine();
 
-    boolean addMedicine(Medicine medicine, Date endDate);
+    boolean addMedicine(Medicine medicine);
 }
