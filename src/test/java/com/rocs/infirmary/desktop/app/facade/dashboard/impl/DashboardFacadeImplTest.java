@@ -113,8 +113,8 @@ public class DashboardFacadeImplTest {
         assertEquals(1, result.size());
 
         LowStockReport report = result.get(0);
-        assertEquals("Test Medicine", report.getDescription());
-        assertEquals(5, report.getQuantityAvailable());
+        assertEquals("Antihistamine", report.getDescription());
+        assertEquals(20, report.getQuantityAvailable());
 
         verify(dashboardDao, times(1)).getAllLowStockMedicine();
     }

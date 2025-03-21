@@ -102,8 +102,8 @@ public class DashboardDaoImplTest {
         assertEquals(1, lowStockReports.size());
 
         LowStockReport report = lowStockReports.get(0);
-        assertEquals("Test Medicine", report.getDescription());
-        assertEquals(5, report.getQuantityAvailable());
+        assertEquals("Antihistamine", report.getDescription());
+        assertEquals(20, report.getQuantityAvailable());
 
         verify(connection, times(1)).prepareStatement(anyString());
         verify(preparedStatement, times(1)).executeQuery();
