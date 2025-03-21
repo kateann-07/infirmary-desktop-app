@@ -92,8 +92,8 @@ public class DashboardDaoImplTest {
     public void testGetAllLowStockMedicine() throws SQLException {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
-        when(resultSet.getString("item_name")).thenReturn("Test Medicine");
-        when(resultSet.getInt("quantity")).thenReturn(5);
+        when(resultSet.getString("item_name")).thenReturn("Test MedicineName");
+        when(resultSet.getInt("quantity")).thenReturn(20);
 
         DashboardDao dashboardDao = new DashboardDaoImpl();
         List<LowStockReport> lowStockReports = dashboardDao.getAllLowStockMedicine();
@@ -102,7 +102,7 @@ public class DashboardDaoImplTest {
         assertEquals(1, lowStockReports.size());
 
         LowStockReport report = lowStockReports.get(0);
-        assertEquals("Antihistamine", report.getDescription());
+        assertEquals("Test MedicineName", report.getDescription());
         assertEquals(20, report.getQuantityAvailable());
 
         verify(connection, times(1)).prepareStatement(anyString());

@@ -4,6 +4,7 @@ import com.rocs.infirmary.desktop.data.dao.report.dashboard.DashboardDao;
 import com.rocs.infirmary.desktop.data.model.report.lowstock.LowStockReport;
 import com.rocs.infirmary.desktop.data.model.report.medication.MedicationTrendReport;
 import com.rocs.infirmary.desktop.data.model.report.visit.FrequentVisitReport;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,8 +57,8 @@ public class DashboardFacadeImplTest {
 
         lowStockReportList = new ArrayList<>();
         LowStockReport lowStockReport = new LowStockReport();
-        lowStockReport.setDescription("Test Medicine");
-        lowStockReport.setQuantityAvailable(5);
+        lowStockReport.setDescription("Test MedicineName");
+        lowStockReport.setQuantityAvailable(20);
         lowStockReportList.add(lowStockReport);
 
     }
@@ -113,7 +114,7 @@ public class DashboardFacadeImplTest {
         assertEquals(1, result.size());
 
         LowStockReport report = result.get(0);
-        assertEquals("Antihistamine", report.getDescription());
+        assertEquals("Test MedicineName", report.getDescription());
         assertEquals(20, report.getQuantityAvailable());
 
         verify(dashboardDao, times(1)).getAllLowStockMedicine();
