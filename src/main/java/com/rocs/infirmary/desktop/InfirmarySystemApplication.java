@@ -244,9 +244,9 @@ public class InfirmarySystemApplication {
 
 
                     if (confirmation.equals("1")) {
-                        boolean result = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
+                        Student result = studentMedicalRecordFacade.deleteStudentMedicalRecordById(id);
 
-                        if (result) {
+                        if (result == null) {
                             System.out.println("Item cannot be deleted.");
                         } else {
                             System.out.println("Item successfully deleted.");

@@ -14,6 +14,10 @@ public class Student extends Person {
     private String temperatureReadings;
     private Date visitDate;
     private String treatment;
+    private long id;
+    private int ailmentId;
+    private String medHistoryId;
+    private int nurseInChargeId;
 
 
     public void setStudentId(int studentId) {
@@ -62,4 +66,11 @@ public class Student extends Person {
     public long getLrn(){
         return lrn;
     }
+    public void setId(long id) { this.id = id; }
+
+    public void setAilmentId(int ailmentId) { this.ailmentId = ailmentId;}
+
+    public void setMedHistoryId(String medHistoryId) { this.medHistoryId = medHistoryId;}
+
+    public void setNurseInChargeId(int nurseInChargeId) { this.nurseInChargeId = nurseInChargeId ;}
 }

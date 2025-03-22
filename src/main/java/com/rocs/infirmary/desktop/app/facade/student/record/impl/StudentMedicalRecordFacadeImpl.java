@@ -32,7 +32,7 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
     }
 
    @Override
-    public boolean deleteStudentMedicalRecordById(String Id) {
+    public Student deleteStudentMedicalRecordById(String Id) {
         return this.studentMedRecord.deleteStudentMedicalRecordById(Id);
     }
 }
