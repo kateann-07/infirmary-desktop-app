@@ -11,7 +11,7 @@ public class MedicalRecord {
     private String temperatureReadings;
     private Timestamp visitDate;
     private String treatment;
-    private Long medHistoryId; // Added medHistoryId field
+    private Long medHistoryId;
 
     public MedicalRecord() {
     }

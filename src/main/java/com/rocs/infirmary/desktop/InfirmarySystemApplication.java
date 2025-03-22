@@ -252,7 +252,7 @@ public class InfirmarySystemApplication {
         long studentId = scanner.nextLong();
         scanner.nextLine();
 
-        Student student = recordsFacade.findStudentById(studentId);
+        Student student = recordsFacade.getStudentById(studentId);
         if (student == null) {
             System.out.println("Student with ID " + studentId + " not found.");
             return;

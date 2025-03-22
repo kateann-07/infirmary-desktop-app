@@ -35,5 +35,5 @@ public interface StudentMedicalRecordFacade {
      * @return True if the record was added successfully, false otherwise.
      */
     boolean addStudentMedicalRecord(MedicalRecord record);
-    Student findStudentById(long studentId);
+    Student getStudentById(long studentId);
 }

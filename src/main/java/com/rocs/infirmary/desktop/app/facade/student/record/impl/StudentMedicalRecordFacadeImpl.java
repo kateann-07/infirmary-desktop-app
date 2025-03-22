@@ -40,7 +40,7 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
         return studentMedRecord.createMedicalRecord(record);
     }
     @Override
-    public Student findStudentById(long studentId) {
+    public Student getStudentById(long studentId) {
         return studentMedRecord.getStudentById(studentId);
     }
 }
