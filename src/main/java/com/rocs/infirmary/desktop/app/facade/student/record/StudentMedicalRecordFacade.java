@@ -1,6 +1,7 @@
 package com.rocs.infirmary.desktop.app.facade.student.record;
 
 
+import com.rocs.infirmary.desktop.data.dao.student.record.StudentMedicalRecordDao;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 
 
@@ -30,5 +31,5 @@ public interface StudentMedicalRecordFacade {
 
 
 
-    boolean updateStudentMedicalRecords(StudentMedicalRecord studentmedicalrecords);
+    boolean updateStudentMedicalRecords(Student student);
 }

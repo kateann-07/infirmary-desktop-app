@@ -236,8 +236,6 @@ public class InfirmarySystemApplication {
         case 8: {
 
 
-
-            StudentMedicalRecordFacade studentmedicalrecordFacade = new StudentMedicalRecordFacadeImpl();
                     Scanner sc = new Scanner(System.in);
 
 
@@ -296,11 +294,11 @@ public class InfirmarySystemApplication {
             }
 
 
-        }
 
 
 
-            }
+
+
 
     private static void displayCommonAilmentsReport(List<CommonAilmentsReport> reports, Date startDate, Date endDate, String gradeLevel, String section) {
         if (reports == null || reports.isEmpty()) {
@@ -356,4 +354,3 @@ public class InfirmarySystemApplication {
             }
         }
     }
-}

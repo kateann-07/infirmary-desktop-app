@@ -11,5 +11,11 @@ public interface StudentMedicalRecordDao {
 
     List<Student> getAllStudentMedicalRecords();
 
-    boolean updateStudentMedicalRecords(UpdateStudentMedicalRecord updatestudentmedicalrecord);
+    boolean updateStudentMedicalRecords(Student student);
 }
+
+
+
+
+
+
