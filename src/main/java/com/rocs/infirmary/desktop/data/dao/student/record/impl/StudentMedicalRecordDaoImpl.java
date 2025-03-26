@@ -92,42 +92,68 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
         return medicalRecords;
     }
 
+
     @Override
-    public Student deleteStudentMedicalRecordById(String Id) {
-        Student studentMedicalRecord = null;
+    public boolean deleteStudentMedicalRecordById(long LRN) {
+        Student studentMedicalRecord = new Student();
         try (Connection con = ConnectionHelper.getConnection()) {
 
             QueryConstants queryConstants = new QueryConstants();
 
-            String sql = queryConstants.getDELETE_STUDENT_MEDICAL_RECORD_BY_ID();
+            String sql = queryConstants.getAllMedicalInformationByLRN();
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
 
-            stmt.setString(1, (Id));
+            stmt.setLong(1, LRN);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                studentMedicalRecord = new Student();
-                studentMedicalRecord.setId(rs.getLong("id"));
-                studentMedicalRecord.setStudentId(rs.getInt("student_id"));
-                studentMedicalRecord.setAilmentId(rs.getInt("ailment_id"));
-                studentMedicalRecord.setMedHistoryId(rs.getString("med_history_id"));
-                studentMedicalRecord.setNurseInChargeId(rs.getInt("nurse_in_charge_id"));
-                studentMedicalRecord.setSymptoms(rs.getString("symptoms"));
-                studentMedicalRecord.setTemperatureReadings(rs.getString("temperature_readings"));
-                studentMedicalRecord.setVisitDate(rs.getDate("visit_date"));
-                studentMedicalRecord.setTreatment(rs.getString("treatment"));
+
+            while (rs.next()){
+                studentMedicalRecord.setMedicalRecordId(rs.getInt("student_id"));
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return studentMedicalRecord;
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+
+            QueryConstants queryConstants = new QueryConstants();
+
+            String sql = queryConstants.getDELETE_MEDICINE_ADMINISTERED();
+
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1,studentMedicalRecord.getMedicalRecordId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try (Connection con = ConnectionHelper.getConnection()) {
+
+            QueryConstants queryConstants = new QueryConstants();
+
+            String sql = queryConstants.getDELETE_STUDENT_MEDICAL_RECORD();
+
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1,studentMedicalRecord.getStudentId());
+
+            int affectedRow = preparedStatement.executeUpdate();
+            return affectedRow > 0;
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+        }
 
 
     }
 
+
 }
+
+
 
 
 
