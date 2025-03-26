@@ -94,29 +94,27 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
     @Override
     public boolean updateStudentMedicalRecords(Student student) {
-        QueryConstants queryConstants = new  QueryConstants();
+
         try (Connection con = ConnectionHelper.getConnection()) {
+            QueryConstants queryConstants = new  QueryConstants();
+            String sql = queryConstants.getAllMedicalInformationByLRN();
 
-            String sql = queryConstants.getAllUpdateStudentMedicalRecords();
-
-            PreparedStatement stmt = con.prepareStatement(sql "UPDATE STUDENT SET STUDENT_ID = ?, FIRST_NAME = ?, MIDDLE_NAME LAST_NAME = ?, AGE = ?, GENDER = ?, SYMPTOMS =?, TEMPERATURE_READINGS = ?, VISIT_DATE = ?, TREATMENT = ?");
-
+            PreparedStatement stmt = con.prepareStatement(sql "SYMPTOMS = ?, ADDED_REMERKS = ?, TEMPERATURE_READINGS = ?, VISIT_DATE = ?, TREATMENT = ?, LRN = ?, MEDICATIONS_ADMINISTERED = ?");
+            stmt.setLong(1, LRN);
             ResultSet rs = stmt.executeQuery();
 
 
-            while (rs.next()) {
+            if (rs.next()) {
                 Student studentMedicalRecord = new Student();
 
-                studentMedicalRecord.setStudentId(rs.getInt("student_id"));
-                studentMedicalRecord.setFirstName(rs.getString("first_name"));
-                studentMedicalRecord.setMiddleName(rs.getString("middle_name"));
-                studentMedicalRecord.setLastName(rs.getString("last_name"));
-                studentMedicalRecord.setAge(rs.getInt("age"));
-                studentMedicalRecord.setGender(rs.getString("gender"));
+
                 studentMedicalRecord.setSymptoms(rs.getString("symptoms"));
+                studentMedicalRecord.setAddedRemerks(rs.getString("added_remerks"));
                 studentMedicalRecord.setTemperatureReadings(rs.getString("temperature_readings"));
                 studentMedicalRecord.setVisitDate(rs.getDate("visit_date"));
                 studentMedicalRecord.setTreatment(rs.getString("treatment"));
+                studentMedicalRecord.setLrn(rs.getLong("lrn"));
+                studentMedicalRecord.setMedicationsAdministered(rs.getString("medicationsadministered"));
 
                 int affectedRows = studentMedicalRecord.executeUpdate();
                 return affectedRows > 0;

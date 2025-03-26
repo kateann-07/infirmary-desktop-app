@@ -2,6 +2,7 @@ package com.rocs.infirmary.desktop;
 
 import com.rocs.infirmary.desktop.app.facade.dashboard.DashboardFacade;
 import com.rocs.infirmary.desktop.app.facade.dashboard.impl.DashboardFacadeImpl;
+import com.rocs.infirmary.desktop.app.facade.student.record.StudentMedicalRecordFacade;
 import com.rocs.infirmary.desktop.data.model.person.student.Student;
 import com.rocs.infirmary.desktop.data.model.person.Person;
 import com.rocs.infirmary.desktop.data.model.report.ailment.CommonAilmentsReport;
@@ -236,35 +237,33 @@ public class InfirmarySystemApplication {
         case 8: {
 
 
-                    Scanner sc = new Scanner(System.in);
 
-
-                        sc.nextLine();
-                        System.out.println("Enter the id of the updatemedical to update: ");
-                        String id = sc.nextLine();
-                         studentmedicalrecord = StudentMedicalRecordFacade.getUpdateMedicalById(id);
+            scanner.nextLine();
+                        System.out.println("Enter the Student LRN to update: ");
+                        long LRN = scanner.nextLong();
+                         Student student = studentMedicalRecordFacade.getUpdateMedicalByLRN(lrn);
                         if (updatemedical == null) {
                             System.out.println("UpdateMedical to update not found.");
                         } else {
                             System.out.println("Updating an updatemedical");
                             System.out.println("Enter updatemedical studentid: ");
-                            int studentid = sc.nextInt();
+                            int studentid = scanner.nextLine();
                             System.out.println("Enter updatemedical ailmentid: ");
-                            int ailmentid = sc.nextInt();
+                            int ailmentid = scanner.nextLine();
                             System.out.println("Enter updatemedical medhistoryid: ");
-                            String medhistoryid = sc.nextLine();
+                            String medhistoryid = scanner.nextLine();;
                             System.out.println("Enter updatemedical nurseinchargeid:");
-                            int nurseinchargeid = sc.nextInt();
+                            int nurseinchargeid = scanner.nextLine();
                             System.out.println("Enter updatemedical symptoms: ");
-                            String symptoms = sc.nextLine();
+                            String symptoms = scanner.nextLine();
                             System.out.println("Enter updatemedical temperaturereadings: ");
-                            int temperaturereadings = sc.nextInt();
+                            int temperaturereadings = scanner.nextLine();
                             System.out.println("Enter updatemedical visitdate: ");
-                            int visitdate = sc.nextInt();
+                            int visitdate = scanner.nextLine();
                             System.out.println("Enter updatemedical treatment: ");
-                            String treatment = sc.nextLine();
+                            String treatment = scanner.nextLine();
 
-                            UpdateMedical updateUpdateMedical = new UpdateMedical();
+                            StudentMedicalRecord updateStudentMedicalRecord = new StudentMedicalRecord;
                             updateUpdateMedical.setId(id);
                             updateUpdateMedical.setStudentId(studentid);
                             updateUpdateMedical.setAilmentId(ailmentid);
