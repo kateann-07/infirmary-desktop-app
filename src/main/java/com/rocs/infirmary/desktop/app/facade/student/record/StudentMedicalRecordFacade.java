@@ -32,5 +32,6 @@ public interface StudentMedicalRecordFacade {
      * <p>
      * This method is used to delete a medical record by its unique identifier (ID). It returns a boolean value indicating whether the deletion was successful.
      */
-    Student deleteStudentMedicalRecordById(String Id);
+
+    boolean deleteStudentMedicalRecordById(long LRN);
 }
