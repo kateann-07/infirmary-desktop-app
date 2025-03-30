@@ -94,39 +94,32 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
     @Override
     public boolean updateStudentMedicalRecords(Student student) {
+        String sql = "UPDATE medical_records SET SYMPTOMS = ?, ADDED_REMERKS = ?, TEMPERATURE_READINGS = ?, VISIT_DATE = ?, TREATMENT = ?, MEDICATIONS_ADMINISTERED = ? WHERE LRN = ?";
 
-        try (Connection con = ConnectionHelper.getConnection()) {
-            QueryConstants queryConstants = new  QueryConstants();
-            String sql = queryConstants.getAllMedicalInformationByLRN();
-
-            PreparedStatement stmt = con.prepareStatement(sql "SYMPTOMS = ?, ADDED_REMERKS = ?, TEMPERATURE_READINGS = ?, VISIT_DATE = ?, TREATMENT = ?, LRN = ?, MEDICATIONS_ADMINISTERED = ?");
-            stmt.setLong(1, LRN);
-            ResultSet rs = stmt.executeQuery();
+        try (Connection con = ConnectionHelper.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
 
 
-            if (rs.next()) {
-                Student studentMedicalRecord = new Student();
+            stmt.setString(1, student.getSymptoms());
+            stmt.setString(2, student.getAddedRemerks());
+            stmt.setString(3, student.getTemperatureReadings());
+            stmt.setDate(4, new java.sql.Date(student.getVisitDate().getTime()));
+            stmt.setString(5, student.getTreatment());
+            stmt.setString(6, student.getMedicationsAdministered());
+            stmt.setLong(7, student.getLrn());
 
 
-                studentMedicalRecord.setSymptoms(rs.getString("symptoms"));
-                studentMedicalRecord.setAddedRemerks(rs.getString("added_remerks"));
-                studentMedicalRecord.setTemperatureReadings(rs.getString("temperature_readings"));
-                studentMedicalRecord.setVisitDate(rs.getDate("visit_date"));
-                studentMedicalRecord.setTreatment(rs.getString("treatment"));
-                studentMedicalRecord.setLrn(rs.getLong("lrn"));
-                studentMedicalRecord.setMedicationsAdministered(rs.getString("medicationsadministered"));
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
 
-                int affectedRows = studentMedicalRecord.executeUpdate();
-                return affectedRows > 0;
-            } catch(SQLException e){
-                System.out.println("An SQL Exception occurred." + e.getMessage());
-                return false;
-            }
+        } catch (SQLException e) {
+            System.out.println("An SQL Exception occurred: " + e.getMessage());
+            return false;
         }
-
+    }
 
     }
-}
+
 
 
 

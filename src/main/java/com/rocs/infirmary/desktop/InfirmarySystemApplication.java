@@ -239,52 +239,53 @@ public class InfirmarySystemApplication {
 
 
             scanner.nextLine();
-                        System.out.println("Enter the Student LRN to update: ");
-                        long LRN = scanner.nextLong();
-                         Student student = studentMedicalRecordFacade.getUpdateMedicalByLRN(lrn);
-                        if (updatemedical == null) {
-                            System.out.println("UpdateMedical to update not found.");
-                        } else {
-                            System.out.println("Updating an updatemedical");
-                            System.out.println("Enter updatemedical studentid: ");
-                            int studentid = scanner.nextLine();
-                            System.out.println("Enter updatemedical ailmentid: ");
-                            int ailmentid = scanner.nextLine();
-                            System.out.println("Enter updatemedical medhistoryid: ");
-                            String medhistoryid = scanner.nextLine();;
-                            System.out.println("Enter updatemedical nurseinchargeid:");
-                            int nurseinchargeid = scanner.nextLine();
-                            System.out.println("Enter updatemedical symptoms: ");
-                            String symptoms = scanner.nextLine();
-                            System.out.println("Enter updatemedical temperaturereadings: ");
-                            int temperaturereadings = scanner.nextLine();
-                            System.out.println("Enter updatemedical visitdate: ");
-                            int visitdate = scanner.nextLine();
-                            System.out.println("Enter updatemedical treatment: ");
-                            String treatment = scanner.nextLine();
 
-                            StudentMedicalRecord updateStudentMedicalRecord = new StudentMedicalRecord;
-                            updateUpdateMedical.setId(id);
-                            updateUpdateMedical.setStudentId(studentid);
-                            updateUpdateMedical.setAilmentId(ailmentid);
-                            updateUpdateMedical.setMedHistoryId(medhistoryid);
-                            updateUpdateMedical.setNurseInChargeId(nurseinchargeid);
-                            updateUpdateMedical.setSymptoms(symptoms);
-                            updateUpdateMedical.setTemperatureReadings(temperaturereadings);
-                            updateUpdateMedical.setVisitDate(visitdate);
-                            updateUpdateMedical.setTreatment(treatment);
+            System.out.println("Enter the Student LRN to update: ");
+            long LRN = scanner.nextLong();
+            Student student = StudentMedicalRecordFacade.findMedicalInformationByLRN(LRN);
+            if (student == null) {
+                System.out.println("StudentMedicalRecord to update not found.");
+            } else {
+                System.out.println("Updating a StudentMedicalRecord");
+                System.out.println("Enter StudentMedicalRecord studentid: ");
+                int studentId = scanner.nextInt();
+                System.out.println("Enter StudentMedicalRecord ailmentid: ");
+                int ailmentId = scanner.nextInt();
+                scanner.nextLine();
+                System.out.println("Enter StudentMedicalRecord medhistoryid: ");
+                String medHistoryId = scanner.nextLine();
+                System.out.println("Enter StudentMedicalRecord nurseinchargeid: ");
+                int nurseInChargeId = scanner.nextInt();
+                scanner.nextLine();
+                System.out.println("Enter StudentMedicalRecord symptoms: ");
+                String symptoms = scanner.nextLine();
+                System.out.println("Enter StudentMedicalRecord temperaturereadings: ");
+                int temperatureReadings = scanner.nextInt();
+                System.out.println("Enter StudentMedicalRecord visitdate (YYYY-MM-DD): ");
+                String visitDateString = scanner.next();
+                System.out.println("Enter StudentMedicalRecord treatment: ");
+                scanner.nextLine();
+                String treatment = scanner.nextLine();
 
-                            boolean result = updatestudentmedicalrecordFacade.updateUpdateStudentMedicalRecord(updateUpdateStudentMedicalRecord);
 
-                            if (result) {
-                                System.out.println("UpdateMedical successfully updated.");
+                StudentMedicalRecord updateStudentMedicalRecord = new StudentMedicalRecord();
+                updateStudentMedicalRecord.setStudentId(studentId);
+                updateStudentMedicalRecord.setAilmentId(ailmentId);
+                updateStudentMedicalRecord.setMedHistoryId(medHistoryId);
+                updateStudentMedicalRecord.setNurseInChargeId(nurseInChargeId);
+                updateStudentMedicalRecord.setSymptoms(symptoms);
+                updateStudentMedicalRecord.setTemperatureReadings(temperatureReadings);
+                updateStudentMedicalRecord.setVisitDate(java.sql.Date.valueOf(visitDateString));
+                updateStudentMedicalRecord.setTreatment(treatment);
 
-                            } else {
-                                System.out.println("UpdateMedical failed.");
+                boolean result = studentMedicalRecordFacade.updateUpdateStudentMedicalRecords(updateStudentMedicalRecord);
 
-                            }
-
-                        }
+                if (result) {
+                    System.out.println("StudentMedicalRecord successfully updated.");
+                } else {
+                    System.out.println("StudentMedicalRecord update failed.");
+                }
+            }
 
 
                     }
