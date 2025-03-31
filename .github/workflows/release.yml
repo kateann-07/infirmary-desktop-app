@@ -29,8 +29,8 @@ jobs:
       - name: Determine next version
         id: semantic
         run: |
-          npx semantic-release --dry-run
-          echo "NEW_VERSION=$(npx semantic-release --dry-run | grep 'The next release version is' | sed 's/.*is //')" >> $GITHUB_ENV
+          npx semantic-release
+          echo "NEW_VERSION=$(npx semantic-release | grep 'The next release version is' | sed 's/.*is //')" >> $GITHUB_ENV
 
       - name: Update version in build.properties
         if: env.NEW_VERSION != ''
