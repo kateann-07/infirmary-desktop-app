@@ -2,9 +2,6 @@ name: Semantic Release
 
 on:
   workflow_dispatch:
-    push:
-      branches:
-        [ia-54-automation-of-tag-and-versioning]
 
 jobs:
   release:
