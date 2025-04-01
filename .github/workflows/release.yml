@@ -28,8 +28,6 @@ jobs:
 
       - name: Determine next version
         id: semantic
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npx semantic-release
           echo "NEW_VERSION=$(npx semantic-release | grep 'The next release version is' | sed 's/.*is //')" >> $GITHUB_ENV
