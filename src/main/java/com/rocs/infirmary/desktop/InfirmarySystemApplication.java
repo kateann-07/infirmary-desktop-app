@@ -76,6 +76,11 @@ public class InfirmarySystemApplication {
                     Date startDate = getValidInputDate(scanner, dateFormat, "Please enter start date (yyyy-MM-dd): ");
                     Date endDate = getValidInputDate(scanner, dateFormat, "Please enter end date (yyyy-MM-dd): ");
 
+                    if(endDate.before(startDate)){
+                        System.out.println("Invalid input: The end date must be later than the start date or the present date.");
+                        break;
+                    }
+
                     List<MedicationTrendReport> medicationTrendReportList = dashboardFacade.generateMedicationReport(startDate, endDate);
                     if (medicationTrendReportList == null || medicationTrendReportList.isEmpty()) {
                         System.out.println("No data available for the selected criteria.");
