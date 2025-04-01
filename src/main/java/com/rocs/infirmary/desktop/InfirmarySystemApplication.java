@@ -51,6 +51,11 @@ public class InfirmarySystemApplication {
                     Date startDate = getValidInputDate(scanner, dateFormat, "Enter start date (yyyy-MM-dd): ");
                     Date endDate = getValidInputDate(scanner, dateFormat, "Enter end date (yyyy-MM-dd): ");
 
+                    if(endDate.before(startDate)){
+                        System.out.println("Invalid input: The end date must be later than the start date or the present date.");
+                        break;
+                    }
+
                     System.out.print("Enter grade level (enter to skip): ");
                     String gradeLevel = scanner.nextLine().trim();
                     gradeLevel = gradeLevel.isEmpty() ? null : gradeLevel;
