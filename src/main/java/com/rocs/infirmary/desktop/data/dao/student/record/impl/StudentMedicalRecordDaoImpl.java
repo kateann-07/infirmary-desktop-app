@@ -94,8 +94,9 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
 
     @Override
-    public boolean deleteStudentMedicalRecordById(long LRN) {
-        Student studentMedicalRecord = new Student();
+    public boolean deleteStudentMedicalRecordByLrn(long LRN) {
+        Student studentMedicalRecord = null;
+
         try (Connection con = ConnectionHelper.getConnection()) {
 
             QueryConstants queryConstants = new QueryConstants();
@@ -104,13 +105,12 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
-
             stmt.setLong(1, LRN);
-            ResultSet rs = stmt.executeQuery();
 
-
-            while (rs.next()){
-                studentMedicalRecord.setMedicalRecordId(rs.getInt("student_id"));
+            ResultSet resultSet = stmt.executeQuery();
+            while(resultSet.next()){
+                studentMedicalRecord = new Student();
+                studentMedicalRecord.setStudentId(resultSet.getInt("student_id"));
             }
 
         } catch (SQLException e) {
@@ -121,37 +121,30 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
             QueryConstants queryConstants = new QueryConstants();
 
-            String sql = queryConstants.getDELETE_MEDICINE_ADMINISTERED();
-
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setInt(1,studentMedicalRecord.getMedicalRecordId());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try (Connection con = ConnectionHelper.getConnection()) {
-
-            QueryConstants queryConstants = new QueryConstants();
-
-            String sql = queryConstants.getDELETE_STUDENT_MEDICAL_RECORD();
+            String sql = queryConstants.getDeleteStudentMedicalRecord();
 
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setInt(1,studentMedicalRecord.getStudentId());
 
             int affectedRow = preparedStatement.executeUpdate();
             return affectedRow > 0;
-
         } catch (SQLException e) {
-
             throw new RuntimeException(e);
         }
 
 
     }
 
-
 }
+
+
+
+
+
+
+
+
+
 
 
 

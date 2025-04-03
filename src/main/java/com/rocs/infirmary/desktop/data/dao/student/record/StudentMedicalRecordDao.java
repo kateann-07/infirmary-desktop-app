@@ -11,6 +11,6 @@ public interface StudentMedicalRecordDao {
 
     List<Student> getAllStudentMedicalRecords();
 
-    boolean deleteStudentMedicalRecordById (long LRN);
+    boolean deleteStudentMedicalRecordByLrn (long LRN);
 
 }

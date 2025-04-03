@@ -233,32 +233,21 @@ public class InfirmarySystemApplication {
 
                 System.out.print("Enter the LRN of student to delete: ");
                 long lrn = sc.nextLong();
-
-                if (studentMedicalRecordFacade.deleteStudentMedicalRecordById(lrn)) {
-                    System.out.println("Item to delete not found.");
-
-                } else {
-
                     System.out.print("Are you sure you want to delete this record? This action cannot be undone. (Select 1. for YES and 2. for NO/CANCEL): ");
                     int confirmation = sc.nextInt();
-
-
                     if (confirmation == 1) {
-
-                        if (studentMedicalRecordFacade.deleteStudentMedicalRecordById(lrn)) {
-                            System.out.println("Item cannot be deleted.");
-                        } else {
-                            System.out.println("Item successfully deleted.");
-                        }
-
+                        studentMedicalRecordFacade.deleteStudentMedicalRecordByLrn(lrn);
+                        System.out.println("Deleted successfully");
                     }
-
-                    if (confirmation == 2) {
+                    else if (confirmation == 2) {
                         System.out.println("Cancel the Deletion");
 
+                    }else {
+                        System.out.println("invalid input");
                     }
 
-                }
+
+
                 break;
             }
 

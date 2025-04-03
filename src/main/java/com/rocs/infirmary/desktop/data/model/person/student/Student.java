@@ -9,7 +9,7 @@ public class Student extends Person {
     private int studentSectionId;
     private int studentId;
     private int studentGuardianId;
-    private  long lrn;
+    private long lrn;
     private String symptoms;
     private String temperatureReadings;
     private Date visitDate;
@@ -18,8 +18,8 @@ public class Student extends Person {
     private int ailmentId;
     private String medHistoryId;
     private int nurseInChargeId;
-    private int medicalRecordId;
-
+    private int setMedicalRecordId ;
+    private int getMedicaRecordStatus;
 
 
     public void setStudentId(int studentId) {
@@ -62,30 +62,37 @@ public class Student extends Person {
         this.treatment = treatment;
     }
 
-    public int getStudentId() { return studentId;
-    }
-
-    public long getLrn(){
-        return lrn;
-    }
-    public int getMedicalRecordId() {
-        return medicalRecordId;
-    }
-
     public int getStudentId() {
         return studentId;
     }
 
+    public long getLrn() {
+        return lrn;
+    }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public void setAilmentId(int ailmentId) { this.ailmentId = ailmentId;}
+    public void setAilmentId(int ailmentId) {
+        this.ailmentId = ailmentId;
+    }
 
-    public void setMedHistoryId(String medHistoryId) { this.medHistoryId = medHistoryId;}
+    public void setMedHistoryId(String medHistoryId) {
+        this.medHistoryId = medHistoryId;
+    }
 
-    public void setNurseInChargeId(int nurseInChargeId) { this.nurseInChargeId = nurseInChargeId ;}
+    public void setNurseInChargeId(int nurseInChargeId) {
+        this.nurseInChargeId = nurseInChargeId;
+    }
 
-    public void setMedicalRecordId(int medicalRecordId) {
-        this.medicalRecordId = medicalRecordId;
+    public void setMedicalRecordId(int medicalRecordIdId) {
+        this.setMedicalRecordId = medicalRecordIdId;
+    }
+
+    public int getMedicalRecordStatus() {
+        return getMedicaRecordStatus;
     }
 }
+
+
