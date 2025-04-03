@@ -95,6 +95,26 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
 
     @Override
     public boolean deleteStudentMedicalRecordByLrn(long LRN) {
+        Student studentMedicalRecord = getStudent(LRN);
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+
+            QueryConstants queryConstants = new QueryConstants();
+
+            String sql = queryConstants.updateMedicalRecordStatus();
+
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1,studentMedicalRecord.getStudentId());
+
+            int affectedRow = preparedStatement.executeUpdate();
+            return affectedRow > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private static Student getStudent(long LRN) {
         Student studentMedicalRecord = null;
 
         try (Connection con = ConnectionHelper.getConnection()) {
@@ -116,23 +136,7 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        try (Connection con = ConnectionHelper.getConnection()) {
-
-            QueryConstants queryConstants = new QueryConstants();
-
-            String sql = queryConstants.getDeleteStudentMedicalRecord();
-
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setInt(1,studentMedicalRecord.getStudentId());
-
-            int affectedRow = preparedStatement.executeUpdate();
-            return affectedRow > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        return studentMedicalRecord;
     }
 
 }

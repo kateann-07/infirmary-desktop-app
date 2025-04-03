@@ -42,6 +42,6 @@ public class QueryConstants {
     }
     public String getAllMedicalInformationByLRN() { return GET_ALL_MEDICAL_INFORMATION_BY_LRN;
     }
-    public String getDeleteStudentMedicalRecord() { return UPDATE_STUDENT_MEDICAL_RECORD_STATUS;
+    public String updateMedicalRecordStatus() { return UPDATE_STUDENT_MEDICAL_RECORD_STATUS;
     }
 }
