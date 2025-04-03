@@ -30,7 +30,13 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
 
         return medicalRecords;
     }
+
+   @Override
+   public boolean deleteStudentMedicalRecordByLrn(long LRN) {
+        return this.studentMedRecord.deleteStudentMedicalRecordByLrn(LRN);
+    }
 }
+
 
 
 
