@@ -28,9 +28,8 @@ public interface StudentMedicalRecordFacade {
     List<Student> readAllStudentMedicalRecords();
 
     /**
-     * This defines the contract for deleting medical records. It includes a method for deleting records by their ID.
-     * <p>
-     * This method is used to delete a medical record by its unique identifier (ID). It returns a boolean value indicating whether the deletion was successful.
+     * This intended to delete a student's medical record based on their Learner Reference Number (LRN).
+     * The LRN is a unique identifier assigned to each student. This value is used to locate and delete the corresponding medical record.
      */
 
     boolean deleteStudentMedicalRecordByLrn(long LRN);
