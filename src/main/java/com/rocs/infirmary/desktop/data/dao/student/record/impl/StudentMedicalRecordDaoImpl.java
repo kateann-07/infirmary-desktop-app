@@ -93,6 +93,14 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
     }
 
 
+    /**
+     * Deactivates a student's medical record based on their LRN (Learner Reference Number).
+     * Instead of completely removing the data, it likely updates the status
+     * of the medical record in the database to indicate it's no longer active.
+     *
+     * A status value of 0 means the record is no longer active (deleted),
+     * while a status of 1 means the record is still active and present in the system.
+     */
     @Override
     public boolean deleteStudentMedicalRecordByLrn(long LRN) {
         Student studentMedicalRecord = getStudent(LRN);

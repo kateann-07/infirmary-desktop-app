@@ -31,6 +31,11 @@ public class StudentMedicalRecordFacadeImpl implements StudentMedicalRecordFacad
         return medicalRecords;
     }
 
+    /**
+     * This is used to delete a student's medical record based on their Learner Reference Number (LRN).
+     *
+     * boolean returns true if the deletion was successful, otherwise false.
+     */
    @Override
    public boolean deleteStudentMedicalRecordByLrn(long LRN) {
         return this.studentMedRecord.deleteStudentMedicalRecordByLrn(LRN);
