@@ -17,12 +17,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+
 
 
 public class InfirmarySystemApplication {
@@ -43,6 +45,9 @@ public class InfirmarySystemApplication {
         System.out.println("6 - View Medicine Inventory List");
         System.out.println("7 - Read Student Medical Record");
         System.out.println("8 - Delete Student Medical Record");
+
+
+
 
         int choice = 0;
         while (true) {
@@ -135,7 +140,6 @@ public class InfirmarySystemApplication {
                     String lrnString = String.valueOf(LRN);
 
                     if(!lrnString.matches("\\d{11}")){
-
                         LOGGER.info("User entered invalid LRN length" );
                         System.out.println("Error: Please enter a valid 12-Digit LRN.");
                         break;
@@ -399,6 +403,8 @@ public class InfirmarySystemApplication {
 
         return gradeLevel;
     }
+
+
 
 
 }
