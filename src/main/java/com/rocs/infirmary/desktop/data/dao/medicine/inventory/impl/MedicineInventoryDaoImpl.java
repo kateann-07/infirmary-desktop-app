@@ -55,7 +55,52 @@ public class MedicineInventoryDaoImpl implements MedicineInventoryDao {
         return  MedicineInventoryList;
     }
 
+    @Override
+    public boolean deleteMedicineByItemName(String itemName) {
+        try (Connection con = ConnectionHelper.getConnection()) {
+            QueryConstants queryConstants = new QueryConstants();
+
+            String sql = queryConstants.getDeleteMedicineQuery();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            if(isAvailable(itemName)) {
+
+                stmt.setString(1,itemName);
+
+                int affectedRows = stmt.executeUpdate();
+                return affectedRows > 0;
+
+            } else {
+                return false;
+            }
+
+
+        }catch (SQLException e) {
+            throw new RuntimeException();
+        }
+
     }
+
+    @Override
+    public boolean isAvailable(String itemName) {
+        try(Connection con = ConnectionHelper.getConnection()){
+            QueryConstants queryConstants = new QueryConstants();
+
+            String sql = queryConstants.filterDeletedMedicine();
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setString(1,itemName);
+
+           ResultSet rs =  stmt.executeQuery();
+           return rs.next();
+
+        }catch (SQLException e ) {
+            System.out.println("SQL error " + e.getMessage());
+        }
+
+        return false;
+    }
+
+}
 
 
 
