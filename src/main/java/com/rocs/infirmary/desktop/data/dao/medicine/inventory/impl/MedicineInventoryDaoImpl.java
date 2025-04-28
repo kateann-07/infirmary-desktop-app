@@ -16,6 +16,9 @@ import java.util.ArrayList;
  * The MedicineInventoryDaoImpl class is an implementation of the MedicineInventoryDao interface.
  * This class includes methods for setting values of both medicine and inventory objects.
  * Includes method for calling the query constants and connection helper.
+ *
+ * Includes method for deleting Medicine by ItemName and method for checking if medicine
+ * is not deleted (available) from the database.
  */
 public class MedicineInventoryDaoImpl implements MedicineInventoryDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(MedicineInventoryDaoImpl.class);
