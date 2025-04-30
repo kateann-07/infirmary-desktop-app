@@ -16,7 +16,6 @@ import com.rocs.infirmary.desktop.data.model.report.visit.FrequentVisitReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,7 +54,11 @@ public class InfirmarySystemApplication {
             try {
                 System.out.println("Enter your choice: ");
                 choice = scanner.nextInt();
-                break;
+                if (choice >= 1 && choice <= 9){
+                    break;
+                }else {
+                    System.out.println("Invalid Choice. Please select a valid option. ");
+                }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 scanner.nextLine();
@@ -87,18 +90,19 @@ public class InfirmarySystemApplication {
 
 
                     List<CommonAilmentsReport> reports = dashboardFacade.generateCommonAilmentReport(startDate, endDate, gradeLevel, section);
-                     if(reports  == null || reports.isEmpty()){
-                         LOGGER.info("No reports available to generate. The report list is empty or null.");
-                     }else {
-                         displayCommonAilmentsReport(reports, startDate, endDate, gradeLevel, section);
-                         LOGGER.info("Report Successfully Generated");
-                         LOGGER.info("Program Ended Successfully");
-                     }
-
+                    if (reports == null || reports.isEmpty()) {
+                        LOGGER.info("Failed on Generating Report ");
+                    } else {
+                        displayCommonAilmentsReport(reports, startDate, endDate, gradeLevel, section);
+                        LOGGER.info("Report Successfully Generated");
+                        LOGGER.info("Program Ended Successfully");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Invalid input detected. Please enter valid data.");
+                    scanner.nextLine();
                 } catch (RuntimeException e) {
                     LOGGER.error("Runtime Exception Occured " + e);
                     System.out.println("Report generation failed: " + e.getMessage());
-
                 }
 
                 break;
@@ -132,22 +136,16 @@ public class InfirmarySystemApplication {
                 }
                 break;
             }
+
             case 3: {
-                try {
                     scanner.nextLine();
                     StudentMedicalRecordFacadeImpl studentMedicalRecord = new StudentMedicalRecordFacadeImpl();
-                    System.out.println("Search Student Medical Records using LRN: ");
-                    String LRN = scanner.next();
 
-                    if(LRN.length() != 12  ){
-                        LOGGER.info("User entered invalid LRN length" );
-                        System.out.println("Error: Please enter a valid 12-Digit LRN.");
-                        break;
-                    }
+                    String LRN = getValidLRN(scanner, "Search Student Medical Records using LRN: ");
 
+                try{
                     Student record = studentMedicalRecord.findMedicalInformationByLRN(Long.parseLong(LRN));
                     if (record == null ) {
-
                         LOGGER.info("No student record found ");
                         System.out.println("Student Not Found");
                     } else {
@@ -164,7 +162,6 @@ public class InfirmarySystemApplication {
                         LOGGER.info("Retrieved Medical Record Successfully");
                         LOGGER.info("Program Successfully Ended");
 
-
                     }
                 } catch (InputMismatchException e) {
                     LOGGER.error("Input Mismatch Exception " +  e);
@@ -178,7 +175,6 @@ public class InfirmarySystemApplication {
                 }
                 break;
             }
-
 
             case 4: {
 
@@ -291,25 +287,43 @@ public class InfirmarySystemApplication {
                 }
                 break;
             }
+
             case 8: {
-
-                StudentMedicalRecordFacadeImpl studentMedicalRecordFacade = new StudentMedicalRecordFacadeImpl();
                 Scanner sc = new Scanner(System.in);
+                StudentMedicalRecordFacadeImpl studentMedicalRecordFacade = new StudentMedicalRecordFacadeImpl();
 
-                System.out.print("Enter the LRN of student to delete: ");
-                long lrn = sc.nextLong();
-                System.out.print("Are you sure you want to delete this record? This action cannot be undone. (Select 1. for YES and 2. for NO/CANCEL): ");
-                int confirmation = sc.nextInt();
-                if (confirmation == 1) {
-                    studentMedicalRecordFacade.deleteStudentMedicalRecordByLrn(lrn);
-                    System.out.println("Deleted successfully");
-                } else if (confirmation == 2) {
-                    System.out.println("Cancel the Deletion");
+                String LRN = getValidLRN(sc, "Enter the LRN of Student to Delete: ");
+                long lrn = Long.parseLong(LRN);
 
-                } else {
-                    System.out.println("invalid input");
+                int confirmation;
+                while (true) {
+                    System.out.print("Are you sure you want to delete this record? This action cannot be undone. \n(Select 1 for YES and 2 for NO/CANCEL): ");
+
+                    try {
+                        confirmation = sc.nextInt();
+                        sc.nextLine();
+
+                        if (confirmation == 1) {
+                            try {
+                                studentMedicalRecordFacade.deleteStudentMedicalRecordByLrn(lrn);
+                                System.out.println("LRN Deleted Successfully");
+                            } catch (NullPointerException e) {
+                                System.out.println("Error: The record does not exist or could not be deleted.");
+                            } catch (RuntimeException e) {
+                                System.out.println("Unexpected error occurred during deletion.");
+                            }
+                            break;
+                        } else if (confirmation == 2) {
+                            System.out.println("Cancel the Deletion");
+                            break;
+                        } else {
+                            System.out.println("Invalid input. Please enter 1 for YES or 2 for NO.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a number (1 or 2).");
+                        sc.nextLine();
+                    }
                 }
-
 
                 break;
             }
@@ -330,27 +344,16 @@ public class InfirmarySystemApplication {
                         System.out.println("This medicine " + itemName + " " + "does not exist");
                         return;
                     }
-                    System.out.println("Are you sure you want to delete this item? This action cannot be undone. ");
-                    System.out.println("1 - Confirm ");
-                    System.out.println("2 - Cancel  ");
-                    int confirmation = scanner.nextInt();
+                    String confirmationMessage = "Are you sure you want to delete this Medicine Item? \n This action cannot be undone. ";
+                    int confirmation = InfirmarySystemApplication.getUserConfirmation(scanner, confirmationMessage);
 
                     if (confirmation == 1 ) {
                         boolean success =  medicineInventoryFacade.deleteMedicineByItemName(itemName);
+                        System.out.println(success ? "Successfully Deleted" : "Failed to Delete");
 
-                        if (success) {
-                            System.out.println("Successfully Deleted");
                         } else {
-                            System.out.println("Failed to Delete");
+                            System.out.println("Cancel the deletion. ");
                         }
-
-                    } else if (confirmation == 2) {
-
-                        System.out.println("Cancel the Deletion");
-                        return;
-                    }else {
-                        System.out.println("Invalid Choice.");
-                    }
 
                 } catch (RuntimeException e) {
                     throw new RuntimeException(e);
@@ -358,8 +361,6 @@ public class InfirmarySystemApplication {
             }
             break;
 
-            default:
-                System.out.println("Invalid choice. Please select a valid option.");
         }
 
 
@@ -414,6 +415,7 @@ public class InfirmarySystemApplication {
                     continue;
                 }
                 return date;
+
             } catch (ParseException e) {
                 System.err.println("Invalid date format, use yyyy-MM-dd.");
             }
@@ -448,7 +450,47 @@ public class InfirmarySystemApplication {
         return gradeLevel;
     }
 
+    public static String getValidLRN(Scanner scanner, String promptMessage) {
+        String LRN;
+        while (true) {
+            System.out.println(promptMessage);
+            LRN = scanner.nextLine().trim();
 
+            if(LRN.length() == 12 ) {
+                try {
+                    Long.parseLong(LRN);
+                    return LRN;
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: The LRN must contain only 12 numeric digits.");
+                }
+            } else {
+                System.out.println("Error: Please enter a valid 12-Digit LRN.");
+                LOGGER.info("User entered invalid LRN length" );
+            }
+        }
+    }
 
+    public static int getUserConfirmation(Scanner scanner, String promptMessage) {
+        int confirmation = -1;
+        while (true) {
+            try {
+                System.out.println(promptMessage);
+                System.out.println("1 - Confirm");
+                System.out.println("2 - Cancel");
+
+                confirmation = scanner.nextInt();
+                scanner.nextLine();
+
+                if (confirmation == 1 || confirmation == 2) {
+                    return confirmation;
+                }else {
+                    System.out.println("Invalid Choice. Please enter 1 to CONFIRM or 2 to CANCEL. ");
+                }
+                }catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a numeric value (1 or 2). ");
+                    scanner.nextLine();
+                }
+            }
+        }
 
 }
