@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -153,6 +154,94 @@ public class StudentMedicalRecordDaoImpl implements StudentMedicalRecordDao {
         }
 
     }
+
+
+
+    @Override
+    public boolean updateStudentMedicalRecord(String symptoms, String temperatureReadings, Date visitDate, String treatment, long LRN) {
+        LOGGER.info("Update Student Medical Record Started for LRN: " + LRN);
+        QueryConstants queryConstants = new QueryConstants();
+        boolean updateSuccessful = false;
+
+        try (Connection con = ConnectionHelper.getConnection()) {
+
+
+            if (symptoms != null && !symptoms.trim().isEmpty()) {
+                String updateSymptomQuery = queryConstants.updateStudentSymptoms();
+                try (PreparedStatement stmt = con.prepareStatement(updateSymptomQuery)) {
+                    LOGGER.info("Executing update for symptoms...");
+                    LOGGER.info("Query: " + updateSymptomQuery);
+                    stmt.setString(1, symptoms);
+                    stmt.setLong(2, LRN);
+                    LOGGER.info("Symptoms: " + symptoms + ", LRN: " + LRN);
+                    int rows = stmt.executeUpdate();
+                    LOGGER.info("Symptoms updated. Rows affected: " + rows);
+                    updateSuccessful = rows > 0;
+                }catch (SQLException e ) {
+                    LOGGER.info("SQL Exception Occurred on Symptoms " + symptoms );
+                    System.out.println("SQL Exception Occurred when updating Symptom : " + e.getMessage());
+                }
+            }
+
+            if (temperatureReadings != null && !temperatureReadings.trim().isEmpty()) {
+                String updateTemperatureReadingsQuery = queryConstants.updateStudentTemperatureReadings();
+                try (PreparedStatement stmt = con.prepareStatement(updateTemperatureReadingsQuery)) {
+                    LOGGER.info("Executing update for temperature readings...");
+                    LOGGER.info("Query: " + updateTemperatureReadingsQuery);
+                    stmt.setString(1, temperatureReadings);
+                    stmt.setLong(2, LRN);
+                    LOGGER.info("TemperatureReadings: " + temperatureReadings + ", LRN: " + LRN);
+                    int rows = stmt.executeUpdate();
+                    LOGGER.info("Temperature readings updated. Rows affected: " + rows);
+                    updateSuccessful = rows > 0;
+                }catch (SQLException e ) {
+                    LOGGER.info("SQL Exception Occurred on Temperature Readings" + e.getMessage());
+                    System.out.println("SQL Exception Occurred when Updating Temperature Readings : " + e.getMessage());
+                }
+            }
+
+            if (visitDate != null) {
+                String updateVisitDateQuery = queryConstants.updateStudentVisitDate();
+                try (PreparedStatement stmt = con.prepareStatement(updateVisitDateQuery)) {
+                    LOGGER.info("Executing update for visit date...");
+                    LOGGER.info("Query: " + updateVisitDateQuery);
+                    stmt.setTimestamp(1, new java.sql.Timestamp(visitDate.getTime()));
+                    stmt.setLong(2, LRN);
+                    LOGGER.info("Parameters - visitDate: " + visitDate + ", LRN: " + LRN);
+                    int rows = stmt.executeUpdate();
+                    LOGGER.info("Visit date updated. Rows affected: " + rows);
+                    updateSuccessful = rows > 0;
+                }catch (SQLException e ) {
+                LOGGER.info("SQL Exception Occurred on Visit Date "+ e.getMessage());
+                System.out.println("SQL Exception Occurred when Updating Visit Date : " + e.getMessage());}
+            }
+
+            if (treatment != null && !treatment.trim().isEmpty()) {
+                String updateTreatmentQuery = queryConstants.updateStudentTreatment();
+                try (PreparedStatement stmt = con.prepareStatement(updateTreatmentQuery)) {
+                    LOGGER.info("Executing update for treatment");
+                    LOGGER.info("Query: " + updateTreatmentQuery);
+                    stmt.setString(1, treatment);
+                    stmt.setLong(2, LRN);
+                    LOGGER.info("Parameters - treatment: " + treatment + ", LRN: " + LRN);
+                    int rows = stmt.executeUpdate();
+                    updateSuccessful = rows > 0;
+                } catch (SQLException e) {
+                    LOGGER.info("SQL Exception Occurred on Treatment " + e.getMessage());
+                    System.out.println("SQL Exception Occurred when Updating Treatment : " + e.getMessage());
+                }
+            }
+
+            LOGGER.info("Update Student Medical Record Completed for LRN: " + LRN);
+            return updateSuccessful;
+
+        } catch ( SQLException e) {
+            LOGGER.error("SQL Exception Occurred" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     private static Student getStudent(long LRN) {
         Student studentMedicalRecord = null;
