@@ -4,6 +4,8 @@ import com.rocs.infirmary.desktop.app.facade.dashboard.DashboardFacade;
 import com.rocs.infirmary.desktop.app.facade.dashboard.impl.DashboardFacadeImpl;
 import com.rocs.infirmary.desktop.app.facade.medicine.inventory.MedicineInventoryFacade;
 import com.rocs.infirmary.desktop.app.facade.medicine.inventory.impl.MedicineInventoryFacadeImpl;
+import com.rocs.infirmary.desktop.app.facade.student.profile.Impl.StudentHealthProfileFacadeImpl;
+import com.rocs.infirmary.desktop.app.facade.student.profile.StudentHealthProfileFacade;
 import com.rocs.infirmary.desktop.app.facade.student.record.StudentMedicalRecordFacade;
 import com.rocs.infirmary.desktop.app.facade.student.record.impl.StudentMedicalRecordFacadeImpl;
 import com.rocs.infirmary.desktop.data.model.inventory.medicine.Medicine;
@@ -49,15 +51,14 @@ public class InfirmarySystemApplication {
         System.out.println("9 - Delete Medicine");
         System.out.println("10 - Update Student Medical Record");
         System.out.println("11 - Add New Medicine");
-
-
+        System.out.println("12 - View Student Health Profiles");
 
         int choice = 0;
         while (true) {
             try {
                 System.out.println("Enter your choice: ");
                 choice = scanner.nextInt();
-                if (choice >= 1 && choice <= 11) {
+                if (choice >= 1 && choice <= 12) {
                     break;
                 } else {
                     System.out.println("Invalid Choice. Please select a valid option. ");
@@ -292,12 +293,10 @@ public class InfirmarySystemApplication {
                 break;
             }
             case 7: {
-                LOGGER.info(" User Access Read Student Medical Record ");
-                try {
-
 
                     StudentMedicalRecordFacadeImpl studentMedical = new StudentMedicalRecordFacadeImpl();
                     List<Student> medicalRecords = studentMedical.readAllStudentMedicalRecords();
+                   try{
                     if (medicalRecords.isEmpty()) {
                         LOGGER.info("Failed to Student Medical Record ");
                         System.out.println("No record Found ");
@@ -330,7 +329,7 @@ public class InfirmarySystemApplication {
 
             }
 
-                case 8: {
+            case 8: {
                 Scanner sc = new Scanner(System.in);
                 StudentMedicalRecordFacadeImpl studentMedicalRecordFacade = new StudentMedicalRecordFacadeImpl();
 
@@ -409,7 +408,7 @@ public class InfirmarySystemApplication {
                 StudentMedicalRecordFacade studentMedicalRecordFacade = new StudentMedicalRecordFacadeImpl();
                 try {
 
-                    String LRN = getValidLRN(scanner, "Enter a Student LRN to update : ");
+                    String LRN = getValidLRN(scanner,"Enter a Student LRN to update : ");
 
                     Student student = studentMedicalRecordFacade.findMedicalInformationByLRN(Long.parseLong((LRN)));
 
@@ -425,7 +424,7 @@ public class InfirmarySystemApplication {
                     String temperatureReadings = scanner.nextLine();
 
 
-                    Date visitDate = getValidInputDate(scanner, dateFormat, "Visit Date ( yyyy-MM-dd ):");
+                    Date visitDate = getValidInputDate(scanner, dateFormat,"Visit Date ( yyyy-MM-dd ):");
 
                     System.out.println("Treatment (Enter to skip) : ");
                     String treatment = scanner.nextLine();
@@ -440,7 +439,7 @@ public class InfirmarySystemApplication {
                     }
 
                 } catch (RuntimeException e) {
-                    System.out.println("Runtime Exception Occurred:" + e.getMessage());
+                    System.out.println("Runtime Exception Occurred:"+ e.getMessage());
                 }
             break;
         }
@@ -487,8 +486,58 @@ public class InfirmarySystemApplication {
                     System.out.println("Error occurred while adding medicine: " + e.getMessage());
                 }
                 break;
+            }case 12:{
+                try {
+                    StudentHealthProfileFacade studentHealthProfileFacade = new StudentHealthProfileFacadeImpl();
+                    List<Student>studentList = studentHealthProfileFacade.getAllStudentHealthProfile();
+                    if (studentList == null) {
+                        System.out.println("No student found.");
+                        return;
+                    }
+                    System.out.println("Student Health Profiles");
+                        for (Student student : studentList) {
+                            System.out.println("LRN                :" + student.getLrn());
+                            System.out.println("Fist Name          : " + student.getFirstName());
+                            System.out.println("Middle Name        : " + student.getMiddleName());
+                            System.out.println("Last Name          : " + student.getLastName());
+                            System.out.println("Grade and section  :" + student.getGradeLevel() + " " + student.getSection());
+                            System.out.println("Adviser            :" + student.getStudentAdviser() + "\n");
+                        }
+                        try {
+                            System.out.print("Enter lrn to view detailed health profile: ");
+                            long LRN = scanner.nextLong();
+                            List<Student>studentListProfile = studentHealthProfileFacade.getStudentHealthProfileByLRN(LRN);
+                            if (studentListProfile == null) {
+                                System.out.println("No student Profile found.");
+                                return;
+                            }else{
+                                System.out.println("Student Health Profile");
+                                for (Student student:studentListProfile){
+                                    System.out.println("Name          : " + student.getFirstName()+" "+student.getLastName());
+                                    System.out.println("Contact info.");
+                                    System.out.println("Contact Number     :"+student.getContactNumber());
+                                    System.out.println("Email Address      :"+student.getEmail());
+                                    System.out.println("Address            :"+student.getAddress());
+                                    System.out.println();
+                                    System.out.println("Recent Clinic Visit");
+                                    System.out.println("Symptoms           : " + student.getSymptoms());
+                                    System.out.println("Temperature        : " + student.getTemperatureReadings());
+                                    System.out.println("Treatment          : " + student.getTreatment());
+                                    System.out.println("Visit date         : " + student.getVisitDate());
+                                    System.out.println("Nurse in Charge    : " + student.getNurseInCharge()+"\n");
+                                }
+                            }
+
+                        }catch (InputMismatchException e){
+                            System.out.println("Error: the LRN you entered is not valid. Please enter only numbers.");
+                            scanner.nextLine();
+                        }
+                }catch (NullPointerException np){
+                    LOGGER.error("List containing the retrieved data is empty: {}",np.getMessage());
+                }
             }
-    }
+            break;
+        }
 
 }
 
